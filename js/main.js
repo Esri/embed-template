@@ -170,7 +170,7 @@ ready, parser, domAttr, domGeometry, on, array, declare, lang, query, dom, domCl
                     urlSearch.startup();
                     if(source){
                         if(source.featureLayer && source.featureLayer.infoTemplate){
-                            urlSearch.set("infoTemplate", source.featureLayer.infoTemplate)
+                            urlSearch.set("infoTemplate", source.featureLayer.infoTemplate);
                         }
                         urlSearch.set("sources", [source]);
                     }
