@@ -272,6 +272,7 @@ ready, parser, domAttr, domGeometry, on, array, declare, lang, query, dom, domCl
 
                             source.exactMatch = searchLayer.field.exactMatch;
                             source.searchFields = [searchLayer.field.name];
+                            source.displayField = searchLayer.field.name;
                             source.placeholder = searchOptions.hintText;
                             defaultSources.push(source);
                             searchLayers = true;
