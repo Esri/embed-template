@@ -71,7 +71,6 @@ Evented, declare, lang, _WidgetBase, on, dom, domStyle, domClass, domConstruct, 
                 return def.promise;
             }
 
-
             // whether drawer is now opened or closed
             var nowOpen;
 
@@ -108,7 +107,6 @@ Evented, declare, lang, _WidgetBase, on, dom, domStyle, domClass, domConstruct, 
                 this._animationSteps = null;
                 // now drawer is open
                 if (nowOpen) {
-
                     // add shadow
                     domClass.add(document.body, this.css.drawerOpenComplete);
                 }
@@ -163,7 +161,6 @@ Evented, declare, lang, _WidgetBase, on, dom, domStyle, domClass, domConstruct, 
                 this._borderContainer.addChild(this._contentPaneCenter);
                 // leading panel
                 if (this.displayDrawer) {
-
                     this._contentPaneSide = new ContentPane({
                         region: "leading",
                         id: "cp_left",
@@ -274,9 +271,7 @@ Evented, declare, lang, _WidgetBase, on, dom, domStyle, domClass, domConstruct, 
         _checkDrawerStatus: function () {
             // hamburger button toggle
             if (this.displayDrawer) {
-
                 this._toggleButton();
-
             }
         },
         _toggleButton: function () {
