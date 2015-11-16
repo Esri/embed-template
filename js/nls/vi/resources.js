@@ -26,7 +26,8 @@ define(
             },
             "basemap":{
                     "label": "Bản đồ nền",
-                    "title": "Chọn Bản đồ nền"
+                    "title": "Chọn Bản đồ nền",
+                    "close": "Đóng"
             },
             "legend":{
                 "title": "Chú giải"
@@ -42,6 +43,7 @@ define(
 
         },
         "map": {
+            "toggle": "Chuyển đổi bảng điều khiển bên",
             "error": "Không thể tạo bản đồ"
         }
     })

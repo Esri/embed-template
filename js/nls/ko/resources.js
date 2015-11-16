@@ -26,7 +26,8 @@ define(
             },
             "basemap":{
                     "label": "베이스맵",
-                    "title": "베이스맵 선택"
+                    "title": "베이스맵 선택",
+                    "close": "닫기"
             },
             "legend":{
                 "title": "범례"
@@ -42,6 +43,7 @@ define(
 
         },
         "map": {
+            "toggle": "사이드 패널 전환",
             "error": "맵을 생성할 수 없음"
         }
     })

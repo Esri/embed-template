@@ -26,7 +26,8 @@ define(
             },
             "basemap":{
                     "label": "ベースマップ",
-                    "title": "ベースマップの選択"
+                    "title": "ベースマップの選択",
+                    "close": "閉じる"
             },
             "legend":{
                 "title": "凡例"
@@ -42,6 +43,7 @@ define(
 
         },
         "map": {
+            "toggle": "サイド パネルの切り替え",
             "error": "マップを作成できません"
         }
     })

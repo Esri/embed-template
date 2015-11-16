@@ -26,7 +26,8 @@ define(
             },
             "basemap":{
                     "label": "Pagrindo žemėlapis",
-                    "title": "Pasirinkite pagrindo žemėlapį"
+                    "title": "Pasirinkite pagrindo žemėlapį",
+                    "close": "Užverti"
             },
             "legend":{
                 "title": "Legenda"
@@ -42,6 +43,7 @@ define(
 
         },
         "map": {
+            "toggle": "Perjungti šoninį skydelį",
             "error": "Žemėlapio sukurti nepavyko"
         }
     })

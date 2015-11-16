@@ -26,10 +26,11 @@ define(
             },
             "basemap":{
                     "label": "Pamatkarte",
-                    "title": "Atlasīt pamatkarti"
+                    "title": "Atlasīt pamatkarti",
+                    "close": "Aizvērt"
             },
             "legend":{
-                "title": "Eksplikācija"
+                "title": "Leģenda"
             },
             "details":{
                 "title": "Detaļas",
@@ -42,6 +43,7 @@ define(
 
         },
         "map": {
+            "toggle": "Pārslēgt sānu paneli",
             "error": "Nevar izveidot karti"
         }
     })

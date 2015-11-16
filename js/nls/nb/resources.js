@@ -26,7 +26,8 @@ define(
             },
             "basemap":{
                     "label": "Bakgrunnskart",
-                    "title": "Velg et bakgrunnskart"
+                    "title": "Velg et bakgrunnskart",
+                    "close": "Lukk"
             },
             "legend":{
                 "title": "Tegnforklaring"
@@ -42,6 +43,7 @@ define(
 
         },
         "map": {
+            "toggle": "Aktiver/deaktiver sidepanel",
             "error": "Kan ikke opprette kart"
         }
     })
