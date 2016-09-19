@@ -17,31 +17,31 @@
 define({
   "tools": {
     "search": {
-      "error": "无法找到位置",
-      "notWhatYouWanted": "不是您想要的位置?",
-      "selectAnother": "选择其他位置",
-      "currentLocation": "当前位置",
-      "title": "位置"
+      "error": "Nije pronađena lokacija",
+      "notWhatYouWanted": "Niste ovo tražili?",
+      "selectAnother": "Odaberi drugu lokaciju",
+      "currentLocation": "Trenutačna lokacija",
+      "title": "Lokacija"
     },
     "basemap": {
-      "label": "底图",
-      "title": "选择底图",
-      "close": "关闭"
+      "label": "Kartografska podloga",
+      "title": "Odaberite kartografsku podlogu",
+      "close": "Zatvori"
     },
     "legend": {
-      "title": "图例"
+      "title": "Legenda"
     },
     "details": {
-      "title": "详细信息",
-      "error": "使用将在此部分中显示的详细信息来更新 web 地图描述。"
+      "title": "Pojedinosti",
+      "error": "Ažurirajte opis web-karte pojedinostima za prikaz u ovom odjeljku."
     },
     "popup": {
-      "title": "信息",
-      "instructions": "在地图上选择要素以查看详细信息。"
+      "title": "Informacije",
+      "instructions": "Odaberite geoobjekt na karti za prikaz pojedinosti."
     }
   },
   "map": {
-    "toggle": "切换侧面板",
-    "error": "无法创建地图"
+    "toggle": "Preklopi bočnu ploču",
+    "error": "Nije moguće stvoriti kartu"
   }
 });

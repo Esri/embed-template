@@ -55,15 +55,11 @@ declare, lang, array, dojoJson, domConstruct, esriLang, Locator, FeatureLayer, S
 
         _getActiveSource: function () {
             var activeIndex = 0;
-            if (this.sources && this.sources.length > 1) {
+            if(this.hasOwnProperty("activeSourceIndex")){
+                activeIndex = this.activeSourceIndex;
+            }else if (this.sources && this.sources.length > 1) {
                 activeIndex = "all";
             }
-            array.some(this.sources, function (s, index) {
-                if (!s.hasEsri && s.featureLayer) {
-                    activeIndex = index;
-                    return true;
-                }
-            });
             return activeIndex;
         },
         _createHelperServiceSources: function () {
@@ -158,6 +154,12 @@ declare, lang, array, dojoJson, domConstruct, esriLang, Locator, FeatureLayer, S
                             outFields: ["*"]
                         });
                     }
+                  // Set default search fields if not specified
+                  if (source.searchFields && source.searchFields.length === 0) {
+                    if (featureLayer && featureLayer.displayField) {
+                      source.searchFields = [featureLayer.displayField];
+                    }
+                  }
                     source.featureLayer = featureLayer;
                 }
                 if (source.searchWithinMap) {

@@ -14,7 +14,10 @@ body {
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: "Avenir LT W01 65 Medium", Verdana, Helvetica, Arial, sans-serif;
+  font-family: "Avenir Next W01","Avenir Next","Avenir","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+g#mapDiv_graphics_layer path {
+    fill-opacity: 0;
 }
 a {
   text-decoration: none;
@@ -97,9 +100,9 @@ a {
   text-align: center;
 }
 /*Without this style the popup zoom button doesn't display with calcite*/
-.calcite .actionsPane .action {
+/*.calcite .actionsPane .action {
   text-indent: 0;
-}
+}*/
 /*Icon fonts for menu and nav arrows*/
 @font-face {
   font-family: 'icomoon';
@@ -223,19 +226,20 @@ a {
 .icon-basemap-container {
   position: relative;
   top: 155px;
-  left: 10px;
-  height: 30px;
-  width: 30px;
-  border: 1px solid #57575a;
+  left: 15px;
+  height: 32px;
+  width: 32px;
+  border: 1px solid transparent;
   background-color: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
   cursor: pointer;
   color: #4c4c4c;
+  -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
 }
 .esriRTL .icon-basemap-container {
   top: 110px;
@@ -295,8 +299,8 @@ a {
   height: 30px;
 }
 .light .HomeButton .home {
-  background-color: #f7f8f8;
-  background: url("../images/home_locate.png") no-repeat 0 0;
+  /*background-color: #f7f8f8;
+  background: url("../images/home_locate.png") no-repeat 0 0;*/
 }
 .HomeButton .home {
   padding: 0px !important;
@@ -305,17 +309,10 @@ a {
 }
 .dark .HomeButton .home {
   background-color: #6c6d70;
+  color:#fff;
 }
-.HomeButton .home:hover {
-  background-color: #eee;
-  width: 30px;
-  height: 30px;
-  padding: 0px;
-  -webkit-border-radius: 0;
-  border-radius: 0;
-}
-.dark .HomeButton {
-  color: #fff;
+.dark .HomeButton .home:hover {
+  color:#fff;
 }
 .dark .icon-basemap {
   background-image: url("../images/basemap_light.png");
@@ -329,16 +326,32 @@ a {
 .dark .BasemapToggle .toggleButton {
   background: #6c6d70;
 }
+.calcite .HomeButton .home{
+  box-shadow: none;
+}
 .dark .HomeButton .home:hover {
   background-color: #7a7b7f;
 }
 .light .esriSimpleSlider {
   background-color: #f7f8f8;
 }
-.dark .esriSimpleSlider {
+.dark .esriSimpleSlider div{
   background-color: #6c6d70;
   color: #fff;
 }
+.dark .esriSimpleSlider .esriSimpleSliderIncrementButton{
+  border-bottom:none;
+}
+.dark.calcite  .esriSimpleSlider .esriSimpleSliderDecrementButton{
+  border-top: none;
+}
+.calcite.no-home .esriSimpleSlider .esriSimpleSliderDecrementButton{
+  border-top:0;
+}
+.calcite .esriSimpleSlider .esriSimpleSliderDecrementButton{
+  border-top: solid 1px #efefef;
+}
+
 .light .icon-basemap-container {
   background-color: #f7f8f8;
 }
@@ -351,9 +364,10 @@ a {
 .light .icon-basemap-container:hover {
   background-color: #eee;
 }
-.dark .esriSimpleSliderDecrementButton:hover,
-.dark .esriSimpleSliderIncrementButton:hover {
+.dark .esriSimpleSlider .esriSimpleSliderDecrementButton:hover,
+.dark .esriSimpleSlider .esriSimpleSliderIncrementButton:hover {
   background-color: #7a7b7f;
+  color:#fff;
 }
 .esriRTL .esriSimpleSliderTL {
   top: 10px !important;
@@ -463,7 +477,7 @@ a {
   position: relative;
   background: #fff;
   border: 1px solid #333;
-  width: 395px;
+  width: 355px;
   height: 265px;
 }
 .arrow_box:after,
@@ -504,30 +518,119 @@ a {
 .simpleGeocoder .esriGeocoder {
   border: 1px solid #ccc;
 }
-/*.esriPopup.light .contentPane, .esriPopup.light .actionsPane{
-    background-color: $light-base-color;   
-}*/
+.calcite .dijitSplitContainer-child, .calcite .dijitBorderContainer-child{
+  border:none;
+}
+.calcite .dijitTab, .calcite .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabChecked, .calcite .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabChecked:hover, .calcite .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabChecked:focus{
+  border:none;
+}
+.calcite .dijitTabPaneWrapper{
+  border:none;
+}
+.calcite .dijitTabContainerTop-dijitContentPane, .calcite .dijitTabContainerBottom-dijitContentPane, .calcite .dijitTabContainerLeft-dijitContentPane, .calcite .dijitTabContainerRight-dijitContentPane{
+  background-color:inherit;
+}
+.calcite .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabChecked:hover{
+  padding-top:12px;
+}
 .esriPopup.light .titlePane {
   background-color: #e0e0df;
 }
+.esriPopup.dark{
+  color:#fff;
+}
+.esriViewPopup{
+font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+/*.calcite .esriViewPopup .gallery .mediaHandle.next, .calcite .esriViewPopup .gallery .mediaHandle.prev{
+  font-family:"CalciteWebCoreIcons";
+}
+.calcite .esriViewPopup .gallery{
+  width:auto;
+}*/
 .esriPopup.dark .contentPane,
 .esriPopup.dark .actionsPane {
   background-color: #4c4c4c;
 }
-.esriPopup.dark .pointer.top {
-  background: #323232;
+
+.calcite .esriPopup.light .pointer {
+  border-color: #e0e0df;
 }
+
 .esriPopup.dark .pointer {
-  background: #4c4c4c;
+  border-color: #323232;
 }
-.esriPopup.dark .outerPointer {
-  background: #4c4c4c;
+.esriPopup.dark .outerPointer{
+  border-color: #4c4c4c;
+}
+.esriPopup.light .pointer.bottomLeft,.esriPopup.light .pointer.bottomRight, .esriPopup.light .pointer.bottom{
+  border-color: #fff;
+}
+.esriPopup.dark .pointer.bottomLeft,.esriPopup.dark .pointer.bottomRight, .esriPopup.dark .pointer.bottom{
+  border-color: #4c4c4c;
+}
+.calcite .esriPopup.dark .actionsPane .action{
+  color:#fff;
+}
+.calcite .esriPopup.dark .titlePane .titleButton{
+  color:#fff;
+}
+.esriPopup.light div.header{
+  color:#6d6e71;
+}
+.calcite .esriViewPopup div.header{
+  font-size:12px;
+}
+
+.calcite .esriPopup .titlePane .title{
+  font-weight: normal;
+}
+
+.calcite .esriPopup .actionsPane .actionList a {
+    color:#6e6e6e;
+}
+.calcite .esriPopup .actionsPane .actionList a:hover {
+  color:#323232;
+}
+.calcite .esriPopup .titlePane{
+  font-size:12px;
+}
+.calcite .esriPopup.dark .outerPointer{
+  border-top-color: rgba(255,255,255,0);
+  border-bottom-color: rgba(255,255,255,0);
+}
+.calcite .esriPopup.dark .pointer.top, .calcite .esriPopup.light .pointer.top{
+  border-right-color: rgba(255,255,255,0);;
+  border-left-color: rgba(255,255,255,0);;
+}
+.calcite .esriPopup.dark .pointer.bottom, .calcite .esriPopup.light .pointer.bottom{
+  border-right-color: rgba(255,255,255,0);;
+  border-left-color: rgba(255,255,255,0);;
+}
+.calcite .esriPopup.dark .pointer.topLeft, .calcite .esriPopup.light .pointer.topLeft{
+  border-right-color: rgba(255,255,255,0);;
+  border-top-color: rgba(255,255,255,0);;
+}
+.calcite .esriPopup.dark .pointer.topRight, .calcite .esriPopup.light .pointer.topRight {
+  border-top-color: rgba(255,255,255,0);
+  border-left-color: rgba(255,255,255,0);;
+}
+.calcite .esriPopup.light .pointer.bottomRight, .calcite .esriPopup.dark .pointer.bottomRight{
+  border-left-color: rgba(0, 0, 0, 0);
+  border-bottom-color: rgba(0, 0, 0, 0);
+}
+.calcite .esriPopup.light .pointer.bottomLeft, .calcite .esriPopup.dark .pointer.bottomLeft{
+  border-right-color: rgba(0, 0, 0, 0);
+  border-bottom-color: rgba(0, 0, 0, 0);
 }
 .esriPopup.dark .titlePane {
   background-color: #323232;
 }
-.esriPopup.light .pointer.top {
+/*.esriPopup.light .pointer.top {
   background: #e0e0df;
+}*/
+.hidden{
+  display: none;
 }
 /*If the screen size is max-width or smaller and the drawer is open hide the geocder.*/
 @media screen and (max-width: 540px) {
@@ -548,6 +651,303 @@ a {
 }
 .hide-toggle {
   display: none;
+}
+/*layer list */
+.dark .esriLayerList .esriContainer{
+  background-color: #4c4c4c;
+  color: #fff;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+.dark .esriLegendLayerLabel, .dark .esriLegendServiceLabel{
+  color:#fff;
+}
+.esriLayerList .esriContainer {
+    background-color: #f8f8f8;
+    color: #6e6e6e;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.esriLayerList .esriTitleContainer {
+    margin: 0;
+    border-top: 1px solid #ccc;
+}
+
+.esriLayerList .esriLayer:first-child .esriTitleContainer {
+    border-top: none;
+}
+
+.esriLayerList .esriSubList .esriTitleContainer {
+    padding: 0 0 0 10px;
+    border-top: none;
+}
+
+.dj_rtl .esriLayerList .esriSubList .esriTitleContainer {
+    padding: 0 10px 0 0;
+}
+
+.esriLayerList .esriNoLayers .esriList {
+    display: none;
+}
+
+.esriLayerList .esriNoLayersText {
+    display: none;
+}
+
+.esriLayerList .esriNoLayers .esriNoLayersText {
+    display: block;
+    padding: 16px;
+}
+
+.esriLayerList .esriList,
+.esriLayerList .esriLayer,
+.esriLayerList .esriSubList,
+.esriLayerList .esriSubListLayer {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.esriLayerList .esriSubList {
+    margin-bottom: 10px;
+}
+
+.esriLayerList .esriSubList .esriSubList {
+    display: none;
+}
+
+.esriLayerList .esriSubListExpand > .esriSubList {
+    display: block;
+}
+
+.esriLayerList .esriSubList .esriSubList {
+    margin: 0 0 10px 16px;
+}
+
+.dj_rtl .esriLayerList .esriSubList .esriSubList {
+    margin: 0 16px 10px 0;
+}
+
+.esriLayerList .esriHasTabContent.esriListVisible .esriToggleButton {
+    display: block;
+}
+
+.esriLayerList .esriTabMenu {
+    display: none;
+    list-style: none;
+    margin: 5px 10px;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.esriLayerList .esriTabMenu .esriTabMenuItem {
+    float: left;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    top: 1px;
+    position: relative;
+    border: 1px solid transparent;
+    border-bottom: none;
+}
+
+.dj_rtl .esriLayerList .esriTabMenu .esriTabMenuItem {
+    float: right;
+}
+
+.esriLayerList .esriTabMenu .esriTabMenuSelected {
+    border-color: #ccc;
+    background-color: #f8f8f8;
+    cursor: default;
+}
+
+.esriLayerList .esriTabContainer {
+    display: none;
+}
+
+.esriLayerList .esriTabMenu {
+    display: none;
+}
+
+.esriLayerList .esriTabMenuVisible .esriTabMenu {
+    display: block;
+}
+
+.esriLayerList .esriListExpand.esriListVisible .esriTabContainer {
+    display: block;
+}
+
+.esriLayerList .esriTab {
+    display: none;
+}
+
+.esriLayerList .esriTabSelected {
+    display: block;
+    padding: 0 10px;
+}
+
+.esriLayerList .esriLegend {
+    margin-left: 10px;
+}
+
+.dj_rtl .esriLayerList .esriLegend {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.esriLayerList .esriLegend .esriLegendService > table {
+    display: none;
+}
+
+.esriLayerList .esriLegend .esriLegendMsg {
+    margin-bottom: 10px;
+}
+
+.esriLayerList .dijitSlider {
+    width: 200px;
+    margin: 10px 0 0 0;
+}
+
+.esriLayerList .esriSliderLabels {
+    line-height: 16px;
+    font-size: 12px;
+    height: 16px;
+    position: relative;
+    width: 180px;
+    margin: 2px 10px 10px 10px;
+}
+
+.esriLayerList .esriTitle {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.esriLayerList .esriLabel {
+    display: block;
+    padding: 10px 10px 10px 36px;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.dj_rtl .esriLayerList .esriLabel {
+    padding: 10px 36px 10px 10px;
+}
+
+.esriLayerList .esriSubList .esriLabel,
+.esriLayerList .esriHasTabContent.esriHasButton .esriSubList .esriLabel {
+    padding: 5px 0 5px 36px;
+}
+
+.dj_rtl .esriLayerList .esriSubList .esriLabel,
+.dj_rtl .esriLayerList .esriHasTabContent.esriHasButton .esriSubList .esriLabel {
+    padding: 5px 36px 5px 0;
+}
+
+.esriLayerList .esriToggleButton {
+    float: right;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding:10px 20px 10px 10px;
+    cursor: pointer;
+    display: none;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dj_rtl .esriLayerList .esriToggleButton {
+    float: left;
+}
+
+.esriLayerList .esriHasTabContent .esriLabel,
+.esriLayerList .esriHasButton .esriLabel {
+    padding-right: 36px;
+}
+
+.dj_rtl .esriLayerList .esriHasTabContent .esriLabel,
+.dj_rtl .esriLayerList .esriHasButton .esriLabel {
+    padding-right: 36px;
+    padding-left: 36px;
+}
+
+.esriLayerList .esriHasTabContent.esriHasButton .esriLabel {
+    padding-right: 72px;
+}
+
+.dj_rtl .esriLayerList .esriHasTabContent.esriHasButton .esriLabel {
+    padding-right: 36px;
+    padding-left: 72px;
+}
+
+.esriLayerList .esriScaleInvisible .esriLabel {
+    color: #ccc;
+}
+
+.esriLayerList .esriCheckbox {
+    float: left;
+    height: 16px;
+    width: 16px;
+    padding: 0;
+    margin: 10px;
+}
+
+.dj_rtl .esriLayerList .esriCheckbox {
+    float: right;
+}
+
+.esriLayerList .esriSubList .esriCheckbox {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.esriLayerList .esriButton {
+    float: right;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.esriLayerList .esriButton:hover,
+.esriLayerList .esriButton:active {
+    color: #333;
+}
+
+.esriLayerList .esriContent {
+    margin: 0 0 0 36px;
+}
+
+.dj_rtl .esriLayerList .esriContent {
+    margin: 0 36px 0 0;
+}
+
+.dj_rtl .esriLayerList .esriButton {
+    float: left;
+}
+
+.esriLayerList .esriClear {
+    clear: both;
+}
+
+.esriLayerList .esriClearFix:before,
+.esriLayerList .esriClearFix:after {
+    content: " ";
+  /* 1 */
+    display: table;
+  /* 2 */
+}
+
+.esriLayerList .esriClearFix:after {
+    clear: both;
+}
+/*Layer list*/
+.esriLayerList .esriContainer{
+  border-bottom:none;
+  border-top: none;
 }
 /*Drawer*/
 .border-container-outer {
@@ -616,9 +1016,9 @@ a {
   border: 0;
 }
 @media screen and (max-width: 850px) {
-  .app-loading .content-pane-left {
+  /*.app-loading .content-pane-left {
     width: 0px;
-  }
+  }*/
 }
 /*Tabs*/
 .tabs {
@@ -683,14 +1083,24 @@ a {
   white-space: nowrap;
   z-index: 3;
 }
+.calcite .dijitTabContainerTop .dijitTabPaneWrapper{
+  border:none;
+}
+.calcite .dijitTabContainerTop .dijitTabListContainer-top {
+    margin-top: 0;
+}
+.calcite .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTab:hover {
+    padding-top: 12px;
+    border:none;
+}
 .tab_1 .dijitTabContainerTop-tabs .dijitTab {
-  width: 260px;
+  width: 280px;
 }
 .tab_2 .dijitTabContainerTop-tabs .dijitTab {
-  width: 121px;
+  width: 140px;
 }
 .tab_3 .dijitTabContainerTop-tabs .dijitTab {
-  width: 73px;
+  width: 94px;
 }
 .dijitTab * {
   vertical-align: middle;
@@ -703,6 +1113,7 @@ a {
 }
 .dijitTab .tabLabel {
   font-size: 16px;
+  font-weight: 500;
   display: inline-block;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
@@ -718,6 +1129,9 @@ a {
 }
 .dark .dijitTabPane {
   color: #fff;
+}
+.calcite.dark .esriViewPopup .mainSection .attrTable{
+  color:#fff;
 }
 .calcite.light .dijitTabPaneWrapper {
   background-color: #f7f8f8;
@@ -767,4 +1181,13 @@ a {
   border-bottom-width: 0;
   min-width: 60px;
   text-align: center;
+}
+.calcite .esriPopup.esriPopupMaximized{
+  z-index: 99;
+}
+.calcite .dijitContentPane{
+  padding:0;
+}
+.calcite .esriPopup .contentPane{
+  padding: 0 8px;
 }
