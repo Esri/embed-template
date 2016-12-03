@@ -1,5 +1,5 @@
 # embed-template
-Source code for the embed application used by ArcGIS Online  to embed maps. 
+Source code for the embed application used by ArcGIS Online to embed maps and *Minimalist* template. 
 
 Details on the options supported by the embed application can be found in the [New Options for Embedding Maps](http://blogs.esri.com/esri/arcgis/2015/02/19/new-options-for-embedding-maps/) blog post.
 
