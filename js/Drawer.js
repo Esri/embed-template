@@ -1,5 +1,5 @@
-define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetBase", "dojo/on", "dojo/dom", "dojo/dom-style", "dojo/dom-class", "dojo/dom-construct", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dojo/Deferred", "dojo/window"], function(
-  Evented, declare, lang, _WidgetBase, on, dom, domStyle, domClass, domConstruct, BorderContainer, ContentPane, TabContainer, Deferred, win) {
+define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetBase", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/dom-construct", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dojo/Deferred"], function (
+  Evented, declare, lang, _WidgetBase, on, dom, domClass, domConstruct, BorderContainer, ContentPane, TabContainer, Deferred) {
   var Widget = declare("application.Drawer", [_WidgetBase, Evented], {
     options: {
       showDrawerSize: 850,
@@ -12,7 +12,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
       config: null
     },
     // lifecycle: 1
-    constructor: function(options) {
+    constructor: function (options) {
       // mix in settings and defaults
       var defaults = lang.mixin({}, this.options, options);
       // properties
@@ -30,24 +30,21 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
       };
     },
     // start widget. called by user
-    startup: function() {
+    startup: function () {
       this._init();
-
     },
     // connections/subscriptions will be cleaned up during the destroy() lifecycle phase
-    destroy: function() {
+    destroy: function () {
       this._removeEvents();
       this.inherited(arguments);
     },
-    resize: function() {
+    resize: function () {
 
       // resize border container
       if (this._borderContainer) {
         this._borderContainer.layout();
       }
 
-    // drawer status resize
-    // this.emit("resize", {});
     },
     /* ---------------- */
     /* Public Events */
@@ -58,7 +55,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
     /* ---------------- */
     /* Public Functions */
     /* ---------------- */
-    toggle: function(add) {
+    toggle: function (add) {
 
       // deferred to return
       var def = new Deferred();
@@ -89,7 +86,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
         this._animationSteps = null;
       }
       // resize during animation
-      this._animationSteps = setInterval(lang.hitch(this, function() {
+      this._animationSteps = setInterval(lang.hitch(this, function () {
         // resize border container
         this.resize();
       }), this.get("mapResizeStepTimeout"));
@@ -99,7 +96,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
         this._animationTimeout = null;
       }
       // wait for animation to finish
-      this._animationTimeout = setTimeout(lang.hitch(this, function() {
+      this._animationTimeout = setTimeout(lang.hitch(this, function () {
         // remove shown drawer
         this._checkDrawerStatus();
         // stop resizing container
@@ -119,7 +116,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
     /* ---------------- */
     /* Private Functions */
     /* ---------------- */
-    _removeEvents: function() {
+    _removeEvents: function () {
       if (this._events && this._events.length) {
         for (var i = 0; i < this._events.length; i++) {
           this._events[i].remove();
@@ -138,7 +135,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
         this._borderContainer.destroy();
       }
     },
-    _init: function() {
+    _init: function () {
       // setup events
       this._removeEvents();
       // required nodes
@@ -215,7 +212,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
             var poupup_header = new ContentPane({
               region: "top",
               id: "info_header",
-              content: "<div class='no-select'>" + this.config.i18n.tools.popup.instructions + "</div><div id='popupNav'><div id='prev_nav' class='nav embed-icon-arrow-left'></div><div id='next_nav'class='nav embed-icon-arrow-right'></div><div id='nav_count'class='nav no-select'></div></div>"
+              content: "<div class='no-select'>" + this.config.i18n.tools.popup.instructions + "</div><div id='popupNav'><div id='prev_nav' class='nav esri-icon-left'></div><div id='next_nav'class='nav esri-icon-right'></div><div id='nav_count'class='nav no-select'></div></div>"
             }, domConstruct.create("div"));
             sidepanel.addChild(poupup_header);
             tabs.addChild(sidepanel);
@@ -241,7 +238,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
         this._borderContainer.startup();
         // drawer button
         if (this.displayDrawer) {
-          var toggleClick = on(this._toggleNode, "click", lang.hitch(this, function() {
+          var toggleClick = on(this._toggleNode, "click", lang.hitch(this, function () {
             domClass.remove(document.body, "drawer-closed");
             this.toggle();
           }));
@@ -254,7 +251,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
         } else {
           //close the drawer
           domClass.add(document.body, this.css.drawerOpen);
-          this.toggle(false).always(lang.hitch(this, function() {
+          this.toggle(false).always(lang.hitch(this, function () {
             this.resize();
           }));
         }
@@ -268,22 +265,22 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
       }
     },
 
-    _checkDrawerStatus: function() {
+    _checkDrawerStatus: function () {
       // hamburger button toggle
       if (this.displayDrawer) {
         this._toggleButton();
       }
     },
-    _toggleButton: function() {
+    _toggleButton: function () {
 
       // if drawer is displayed
       if (domClass.contains(document.body, this.css.drawerOpen)) {
 
-        if (domClass.contains(this._toggleNode), "embed-icon-close") {
-          domClass.replace(this._toggleNode, "embed-icon-close", "embed-icon-open");
+        if (domClass.contains(this._toggleNode), "esri-icon-expand") {
+          domClass.replace(this._toggleNode, "esri-icon-expand", "esri-icon-collapse");
         } else {
 
-          domClass.add(this._toggleNode, "embed-icon-open");
+          domClass.add(this._toggleNode, "esri-icon-collapse");
         }
         // has normal class
         if (domClass.contains(this._toggleNode, this.css.toggleButton)) {
@@ -291,10 +288,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
           domClass.replace(this._toggleNode, this.css.toggleButtonSelected, this.css.toggleButton);
         }
       } else {
-        if (domClass.contains(this._toggleNode), "embed-icon-open") {
-          domClass.replace(this._toggleNode, "embed-icon-open", "embed-icon-close");
+        if (domClass.contains(this._toggleNode), "esri-icon-collapse") {
+          domClass.replace(this._toggleNode, "esri-icon-collapse", "esri-icon-expand");
         } else {
-          domClass.add(this._toggleNode, "embed-icon-close");
+          domClass.add(this._toggleNode, "esri-icon-expand");
         }
         // has selected class
         if (domClass.contains(this._toggleNode, this.css.toggleButtonSelected)) {

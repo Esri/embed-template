@@ -24,7 +24,7 @@ define({
       "title": "Konum"
     },
     "basemap": {
-      "label": "Altlık Haritası",
+      "label": "Altlık Harita",
       "title": "Altlık Haritası Seç",
       "close": "Kapat"
     },
@@ -32,7 +32,7 @@ define({
       "title": "Gösterim"
     },
     "details": {
-      "title": "Ayrıntılar",
+      "title": "Detaylar",
       "error": "Web haritası açıklamasını bu kısımda görüntülenecek ayrıntılarla güncelleyin."
     },
     "popup": {

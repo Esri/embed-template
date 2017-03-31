@@ -36,7 +36,7 @@ define({
       "error": "Atualize a descrição de mapa da web com detalhes para exibir nesta seção."
     },
     "popup": {
-      "title": "Info",
+      "title": "Informação",
       "instructions": "Selecione uma feição no mapa para visualizar detalhes."
     }
   },

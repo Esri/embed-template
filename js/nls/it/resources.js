@@ -24,7 +24,7 @@ define({
       "title": "Posizione"
     },
     "basemap": {
-      "label": "Mappa di base",
+      "label": "Mappa precaricata",
       "title": "Seleziona una mappa di base",
       "close": "Chiudi"
     },

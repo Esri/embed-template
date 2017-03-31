@@ -25,14 +25,14 @@ define({
     },
     "basemap": {
       "label": "Pamatkarte",
-      "title": "Atlasīt pamatkarti",
+      "title": "Izvēlēties pamatkarti",
       "close": "Aizvērt"
     },
     "legend": {
-      "title": "Leģenda"
+      "title": "Apzīmējumi"
     },
     "details": {
-      "title": "Detaļas",
+      "title": "Detalizēta informācija",
       "error": "Atjauniniet web kartes aprakstu ar šajā sadaļā parādāmajām detaļām."
     },
     "popup": {

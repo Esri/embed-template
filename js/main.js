@@ -1,36 +1,9 @@
-define([
-  "dojo/ready",
-  "dojo/parser",
-  "dojo/dom-attr",
-  "dojo/dom-geometry",
-  "dojo/on",
-  "dojo/_base/array",
-  "dojo/_base/declare",
-  "dojo/_base/lang",
-  "dojo/_base/kernel",
-  "dojo/query",
-  "dojo/Deferred",
-  "dojo/promise/all",
-  "dojo/dom",
-  "dojo/dom-class",
-  "dojo/dom-construct",
-  "dijit/registry",
-  "esri/domUtils",
-  "esri/lang",
-  "esri/arcgis/utils",
-  "esri/dijit/Popup",
-  "esri/layers/FeatureLayer",
-  "esri/geometry/Point",
-  "application/MapUrlParams",
-  "application/sniff",
-  "application/Drawer",
-  "dojo/domReady!"], function(
+define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo/on", "dojo/_base/declare", "dojo/_base/lang", "dojo/_base/kernel", "dojo/query", "dojo/Deferred", "dojo/promise/all", "dojo/dom", "dojo/dom-class", "dojo/dom-construct", "dijit/registry", "esri/domUtils", "esri/lang", "esri/arcgis/utils", "esri/dijit/Popup", "esri/layers/FeatureLayer", "application/MapUrlParams", "application/sniff", "dojo/domReady!"], function (
   ready,
   parser,
   domAttr,
   domGeometry,
   on,
-  array,
   declare,
   lang,
   kernel,
@@ -46,16 +19,13 @@ define([
   arcgisUtils,
   Popup,
   FeatureLayer,
-  Point,
   MapUrlParams,
-  has,
-  Drawer
-) {
+  has) {
   return declare(null, {
     config: {},
-    startup: function(config) {
+    startup: function (config) {
       document.documentElement.lang = kernel.locale;
-      var promise;
+      // var promise;
       parser.parse();
       // config will contain application and user defined info for the template such as i18n strings, the web map id
       // and application id
@@ -73,54 +43,36 @@ define([
           document.head.appendChild(style);
         }
         if (has("drawer")) {
-          this._drawer = new Drawer({
-            borderContainer: "border_container",
-            // border container node id
-            contentPaneCenter: "cp_center",
-            // center content pane node id
-            direction: this.config.i18n.direction,
-            config: this.config,
-            displayDrawer: (this.config.legend || this.config.details || this.config.popup_sidepanel || this.config.legendlayers),
-            drawerOpen: this.config.show_panel
-          });
+          require(["application/Drawer"], lang.hitch(this, function (Drawer) {
+            this._drawer = new Drawer({
+              borderContainer: "border_container",
+              // border container node id
+              contentPaneCenter: "cp_center",
+              // center content pane node id
+              direction: this.config.i18n.direction,
+              config: this.config,
+              displayDrawer: (this.config.legend || this.config.details || this.config.popup_sidepanel || this.config.legendlayers),
+              drawerOpen: this.config.show_panel
+            });
 
-          // startup drawer
-          this._drawer.startup();
+            // startup drawer
+            this._drawer.startup();
+            this._buildMapUI();
+          }));
         } else {
           domClass.add(document.body, "no-title");
+          this._buildMapUI();
         }
-
-        var itemInfo = this.config.itemInfo || this.config.webmap;
-
-
-        // Check for center, extent, level and marker url parameters.
-        var mapParams = new MapUrlParams({
-          center: this.config.center || null,
-          extent: this.config.extent || null,
-          level: this.config.level || null,
-          marker: this.config.marker || null,
-          mapSpatialReference: itemInfo.itemData.spatialReference,
-          defaultMarkerSymbol: this.config.markerSymbol,
-          defaultMarkerSymbolWidth: this.config.markerSymbolWidth,
-          defaultMarkerSymbolHeight: this.config.markerSymbolHeight,
-          geometryService: this.config.helperServices.geometry.url
-        });
-
-        mapParams.processUrlParams().then(lang.hitch(this, function(urlParams) {
-          promise = this._createWebMap(itemInfo, urlParams);
-        }), lang.hitch(this, function(error) {
-          this.reportError(error);
-        }));
       } else {
         var error = new Error("Main:: Config is not defined");
         this.reportError(error);
         var def = new Deferred();
         def.reject(error);
-        promise = def.promise;
+        // promise = def.promise;
       }
-      return promise;
+      //  return promise;
     },
-    reportError: function(error) {
+    reportError: function (error) {
       // remove loading class from body
       domClass.remove(document.body, "app-loading");
       domClass.add(document.body, "app-error");
@@ -138,9 +90,32 @@ define([
         }
       }
     },
-    _addScalebar: function() {
+    _buildMapUI: function () {
+
+      var itemInfo = this.config.itemInfo || this.config.webmap;
+
+      // Check for center, extent, level and marker url parameters.
+      var mapParams = new MapUrlParams({
+        center: this.config.center || null,
+        extent: this.config.extent || null,
+        level: this.config.level || null,
+        marker: this.config.marker || null,
+        mapSpatialReference: itemInfo.itemData.spatialReference,
+        defaultMarkerSymbol: this.config.markerSymbol,
+        defaultMarkerSymbolWidth: this.config.markerSymbolWidth,
+        defaultMarkerSymbolHeight: this.config.markerSymbolHeight,
+        geometryService: this.config.helperServices.geometry.url
+      });
+
+      mapParams.processUrlParams().then(lang.hitch(this, function (urlParams) {
+        this._createWebMap(itemInfo, urlParams);
+      }), lang.hitch(this, function (error) {
+        this.reportError(error);
+      }));
+    },
+    _addScalebar: function () {
       var deferred = new Deferred();
-      require(["application/sniff!scale?esri/dijit/Scalebar"], lang.hitch(this, function(Scalebar) {
+      require(["application/sniff!scale?esri/dijit/Scalebar"], lang.hitch(this, function (Scalebar) {
         if (!Scalebar) {
           deferred.resolve();
           return;
@@ -153,11 +128,11 @@ define([
       }));
       return deferred.promise;
     },
-    _addZoom: function() {
+    _addZoom: function () {
       var deferred = new Deferred();
       //Zoom slider needs to be visible to add home
       if (this.config.home && this.config.zoom) {
-        require(["application/sniff!home?esri/dijit/HomeButton"], lang.hitch(this, function(HomeButton) {
+        require(["application/sniff!home?esri/dijit/HomeButton"], lang.hitch(this, function (HomeButton) {
           if (!HomeButton) {
             deferred.resolve();
             return;
@@ -176,13 +151,20 @@ define([
       }
       return deferred.promise;
     },
-    _addLayerList: function() {
+    _addLayerList: function () {
       var deferred = new Deferred();
-      require(["application/sniff!legendlayers?esri/dijit/LayerList"], lang.hitch(this, function(LayerList) {
+      require(["application/sniff!legendlayers?esri/dijit/LayerList"], lang.hitch(this, function (LayerList) {
         if (!LayerList) {
           deferred.resolve();
           return;
         }
+
+        // Add the css 
+        var lnk = document.createElement("link");
+        lnk.type = "text/css";
+        lnk.href = "//js.arcgis.com/3.20/esri/dijit/LayerList/css/LayerList.css";
+        lnk.rel = "stylesheet";
+        document.getElementsByTagName("head")[0].appendChild(lnk);
         var layerList = new LayerList({
           map: this.map,
           showLegend: true,
@@ -194,10 +176,10 @@ define([
       }));
       return deferred.promise;
     },
-    _addLegend: function() {
+    _addLegend: function () {
       var deferred = new Deferred();
       // if layer list is enabled don't add legend
-      require(["application/sniff!legend?esri/dijit/Legend"], lang.hitch(this, function(Legend) {
+      require(["application/sniff!legend?esri/dijit/Legend"], lang.hitch(this, function (Legend) {
         if (!Legend) {
           deferred.resolve();
           return;
@@ -211,11 +193,11 @@ define([
       }));
       return deferred.promise;
     },
-    _setupFind: function() {
+    _setupFind: function () {
       var deferred = new Deferred();
       //Feature Search or find (if no search widget)
       if (this.config.find || this.config.feature || (this.config.customUrlLayer.id !== null && this.config.customUrlLayer.fields.length > 0 && this.config.customUrlParam !== null)) {
-        require(["esri/dijit/Search", "esri/urlUtils"], lang.hitch(this, function(Search, urlUtils) {
+        require(["esri/dijit/Search", "esri/urlUtils"], lang.hitch(this, function (Search, urlUtils) {
           if (!Search && !urlUtils) {
             deferred.resolve();
             return;
@@ -226,7 +208,7 @@ define([
             source = null,
             value = null;
 
-          if( (this.config.customUrlLayer.id !== null && this.config.customUrlLayer.fields.length > 0 && this.config.customUrlParam !== null) ) {
+          if ((this.config.customUrlLayer.id !== null && this.config.customUrlLayer.fields.length > 0 && this.config.customUrlParam !== null)) {
             var urlObject = urlUtils.urlToObject(document.location.href);
             urlObject.query = urlObject.query || {};
             urlObject.query = esriLang.stripTags(urlObject.query);
@@ -251,7 +233,8 @@ define([
                 searchFields: searchFields
               };
             }
-          } else if (this.config.feature) {
+          }
+          if (this.config.feature) {
             feature = decodeURIComponent(this.config.feature);
             if (feature) {
               var splitFeature = feature.split(";");
@@ -285,15 +268,29 @@ define([
           }
 
           var urlSearch = new Search({
-            map: this.map
+            map: this.map,
+            zoomScale: this.config.customUrlLayerZoomScale || 1000
           });
+
           urlSearch.startup();
           if (source) {
             urlSearch.set("sources", [source]);
           }
           urlSearch.startup();
-          urlSearch.search(value).then(lang.hitch(this, function() {
-            on.once(this.map.infoWindow, "hide", lang.hitch(this, function() {
+          urlSearch.search(value).then(lang.hitch(this, function (result) {
+            if (this.config.customUrlLayerZoomScale) {
+              var sel = result[0];
+              if (sel) {
+                var r = sel[0];
+                if (r && r.extent) {
+                  // extent avail so specified zoom scale isn't used. So we need to center and zoom
+                  this.map.setScale(this.config.customUrlLayerZoomScale).then(lang.hitch(this, function () {
+                    this.map.centerAt(r.extent.getCenter());
+                  }));
+                }
+              }
+            }
+            on.once(this.map.infoWindow, "hide", lang.hitch(this, function () {
               urlSearch.clear();
               urlSearch.destroy();
             }));
@@ -307,10 +304,10 @@ define([
       }
       return deferred.proise;
     },
-    _setupSearch: function() {
+    _setupSearch: function () {
       //Add the location search widget
       var deferred = new Deferred();
-      require(["application/sniff!search?esri/dijit/Search", "application/sniff!search?esri/tasks/locator", "application/sniff!search?application/SearchSources"], lang.hitch(this, function(Search, Locator, SearchSources) {
+      require(["application/sniff!search?esri/dijit/Search", "application/sniff!search?esri/tasks/locator", "application/sniff!search?application/SearchSources"], lang.hitch(this, function (Search, Locator, SearchSources) {
         if (!Search && !Locator && !SearchSources) {
           deferred.resolve();
           return;
@@ -335,10 +332,11 @@ define([
         createdOptions.enableButtonMode = true;
         createdOptions.expanded = true;
         var search = new Search(createdOptions, domConstruct.create("div", {
-          id: "search"
+          id: "search",
+          className: "simpleGeocoder"
         }, "mapDiv"));
 
-        domClass.add(dom.byId("search"), "simpleGeocoder");
+        domClass.add(search.domNode, "simpleGeocoder");
 
         search.startup();
         //use search if its available.
@@ -347,7 +345,7 @@ define([
           var activeIndex = search.activeSourceIndex;
 
           search.set("activeSourceIndex", "all");
-          search.search(this.config.find).then(function() {
+          search.search(this.config.find).then(function () {
             search.set("activeSourceIndex", activeIndex);
           });
         }
@@ -355,9 +353,9 @@ define([
       }));
       return deferred.promise;
     },
-    _addBasemapGallery: function() {
+    _addBasemapGallery: function () {
       var deferred = new Deferred();
-      require(["application/sniff!basemap_gallery?esri/dijit/BasemapGallery"], lang.hitch(this, function(BasemapGallery) {
+      require(["application/sniff!basemap_gallery?esri/dijit/BasemapGallery"], lang.hitch(this, function (BasemapGallery) {
         if (!BasemapGallery) {
           deferred.resolve();
           return;
@@ -370,6 +368,18 @@ define([
           map: this.map
         };
         var gallery = null;
+
+        //Create a container to hold the basemap gallery title, gallery and also draw
+        //the callout arrow
+        var container = domConstruct.create("div", {
+          id: "gallery_container"
+        }, "mapDiv");
+        this.gallery_container = container;
+        domConstruct.create("div", {
+          "class": "arrow_box",
+          innerHTML: "<div class='basemap_title'>" + this.config.i18n.tools.basemap.title + "</div><span tabindex='0' role='button' aria-label='" + this.config.i18n.tools.basemap.close + "' id='esri-icon-close' class='esri-icon-close'></span><div id='full_gallery'></div>"
+        }, container);
+
         //add a button below the slider to show/hide the basemaps
         var mainContainer = domConstruct.create("div", {
           "class": "icon-basemap-container active-toggle",
@@ -386,29 +396,18 @@ define([
         }, mainContainer);
 
 
-        //Create a container to hold the basemap gallery title, gallery and also draw
-        //the callout arrow
-        var container = domConstruct.create("div", {
-          id: "gallery_container"
-        }, dom.byId("mapDiv"));
-
-        domConstruct.create("div", {
-          "class": "arrow_box",
-          innerHTML: "<div class='basemap_title'>" + this.config.i18n.tools.basemap.title + "</div><span tabindex='0' role='button' aria-label='" + this.config.i18n.tools.basemap.close + "' id='embed-icon-menu-close' class='embed-icon-menu-close'></span><div id='full_gallery'></div>"
-        }, container);
-
         //add a class so we can move the basemap if the zoom position moved.
         if (this.config.zoom && this.config.zoom_position) {
           domClass.add(mainContainer, "embed-" + this.config.zoom_position);
-          domClass.add(dom.byId("gallery_container"), "embed-" + this.config.zoom_position);
+          domClass.add(this.gallery_container, "embed-" + this.config.zoom_position);
         }
 
 
-        gallery = new BasemapGallery(galleryOptions, dom.byId("full_gallery"));
+        gallery = new BasemapGallery(galleryOptions, "full_gallery");
         gallery.startup();
-        var closemenu = dom.byId("embed-icon-menu-close");
+        var closemenu = dom.byId("esri-icon-close");
         if (closemenu) {
-          on(closemenu, "click", lang.hitch(this, function() {
+          on(closemenu, "click", lang.hitch(this, function () {
             this._displayBasemapContainer();
           }));
         }
@@ -419,9 +418,9 @@ define([
       }));
       return deferred.promise;
     },
-    _addBasemapToggle: function() {
+    _addBasemapToggle: function () {
       var deferred = new Deferred();
-      require(["application/sniff!basemap_toggle?esri/dijit/BasemapToggle", "application/sniff!basemap_toggle?esri/basemaps"], lang.hitch(this, function(BasemapToggle, basemaps) {
+      require(["application/sniff!basemap_toggle?esri/dijit/BasemapToggle", "application/sniff!basemap_toggle?esri/basemaps"], lang.hitch(this, function (BasemapToggle, basemaps) {
         if (!BasemapToggle && !basemaps) {
           deferred.resolve();
           return;
@@ -442,7 +441,7 @@ define([
             }
           }
         }
-        on.once(this.map, "basemap-change", lang.hitch(this, function() {
+        on.once(this.map, "basemap-change", lang.hitch(this, function () {
           if (bmLayers && bmLayers.length) {
             for (var i = 0; i < bmLayers.length; i++) {
               bmLayers[i].setVisibility(false);
@@ -480,8 +479,6 @@ define([
             }
           }
         }
-
-
         //add a class so we can move the basemap if the zoom position moved.
         if (this.config.zoom && this.config.zoom_position) {
           domClass.add(toggle.domNode, "embed-" + this.config.zoom_position);
@@ -498,7 +495,7 @@ define([
       }));
       return deferred.promise;
     },
-    loadMapWidgets: function() {
+    loadMapWidgets: function () {
       var promises = [];
       promises.push(lang.hitch(this, this._addScalebar()));
       promises.push(lang.hitch(this, this._addZoom()));
@@ -546,52 +543,83 @@ define([
       if (bc) {
         bc.resize();
       }
-      all(promises).then(lang.hitch(this, function() {
+      all(promises).then(lang.hitch(this, function () {
         // update color theme if defined.
         if (this.config.sharedThemeConfig && this.config.sharedThemeConfig.attributes && this.config.sharedThemeConfig.attributes.theme) {
           var sharedTheme = this.config.sharedThemeConfig.attributes;
-          this.config.color = sharedTheme.theme.text.color;
-          this.config.background = sharedTheme.theme.body.bg;
+          this.config.buttonColor = sharedTheme.theme.text.color;
+          this.config.buttonBackground = sharedTheme.theme.body.bg;
         }
-        if (this.config.color) {
-          query("." + this.config.theme + " .menu-button").style({
-            color: this.config.color
-          });
-          query("." + this.config.theme + " .vertical-line").style({
-            background: this.config.color
-          });
-          query("." + this.config.theme + " .HomeButton .home").style({
-            color: this.config.color
-          });
-          query(".esriPopup div.titlePane, .esriPopup .titleButton").style({
-            color: this.config.color
-          });
-          query(".esriSimpleSliderIncrementButton, .esriSimpleSliderDecrementButton").style({
-            color: this.config.color
-          });
+        /*Create custom style and insert*/
+        var sharedStyleCSS = null;
+        if (this.config.buttonColor) {
+          var buttonColorCSS = esriLang.substitute({
+            theme: this.config.theme,
+            color: this.config.buttonColor
+          }, ".${theme} .menu-button{color:${color}}.${theme} .${theme} .vertical-line{background:${color};}.esriPopup div.titlePane, .esriPopup .titleButton{color:${color};}");
+          sharedStyleCSS = (sharedStyleCSS) ? sharedStyleCSS += buttonColorCSS : buttonColorCSS;
         }
-        if (this.config.background) {
-          query(".esriPopup div.titlePane").style({
-            "background-color": this.config.background
-          });
-          query("." + this.config.theme + " .menu-button").style({
-            background: this.config.background
-          });
-          query(".icon-basemap-container").style({
-            background: this.config.background,
-            color: this.config.color || "#4c4c4c"
-          });
-          query("." + this.config.theme + " .HomeButton .home").style({
-            background: this.config.background
-          });
-          query(".esriSimpleSliderIncrementButton, .esriSimpleSliderDecrementButton").style({
-            "background-color": this.config.background,
-            "border-color": this.config.background
-          });
+        if (this.config.buttonBackground) {
+          var buttonCSS = esriLang.substitute({
+            theme: this.config.theme,
+            background: this.config.buttonBackground
+          }, ".esriPopup div.titlePane{background-color:${background}}.${theme} .menu-button{background-color:${background};}.vertical-line{background-color:${background} !important;}");
+          sharedStyleCSS = (sharedStyleCSS) ? sharedStyleCSS += buttonCSS : buttonCSS;
+        }
+        if (this.config.headerBackground) {
+          var headerCSS = esriLang.substitute({
+            theme: this.config.theme,
+            backgroundColor: this.config.headerBackground,
+            contrastColor: this._calculateColorLuminance(this.config.headerBackground, 0.2)
+          }, ".calcite.${theme} .dijitTab{background:${backgroundColor};}.calcite.${theme} .dijitTabChecked{background:${contrastColor};}");
+          sharedStyleCSS = (sharedStyleCSS) ? sharedStyleCSS += headerCSS : headerCSS;
+        }
+        if (this.config.headerColor) {
+          var headerColorCSS = ".dijitTab .tabLabel{ color:" + this.config.headerColor + ";}";
+          sharedStyleCSS = (sharedStyleCSS) ? sharedStyleCSS += headerColorCSS : headerColorCSS;
+        }
+        if (this.config.bodyBackground) {
+          var panelCSS = esriLang.substitute({
+            background: this.config.bodyBackground,
+            theme: this.config.theme
+          }, ".calcite.${theme} .dijitTabPaneWrapper{background:${background};}.${theme} .esriLayerList .esriContainer{background-color:${background};} .esriLayerList .esriContainer{background-color:${background};}");
+          sharedStyleCSS = (sharedStyleCSS) ? sharedStyleCSS += panelCSS : panelCSS;
+        }
+        if (this.config.bodyColor) {
+          var panelColorCSS = esriLang.substitute({
+            color: this.config.bodyColor,
+            theme: this.config.theme
+          }, ".${theme} .dijitTabPane{color:${color};} .dijitTabPane{color:${color};} .esriLayerList .esriToggleButton{color:${color};}.esriLayerList .esriLabel{color:${color};}.calcite .esriLegendLayer{color:${color};} .esriLayerList .esriContainer{color:${color};}.calcite .esriLegendServiceLabel, .calcite .esriLegendLayerLabel{color:${color};} .no-select{color:${color};}");
+          sharedStyleCSS = (sharedStyleCSS) ? sharedStyleCSS += panelColorCSS : panelColorCSS;
+        }
+        if (sharedStyleCSS) {
+          var style = document.createElement("style");
+          style.appendChild(document.createTextNode(sharedStyleCSS));
+          document.head.appendChild(style);
         }
       }));
     },
-    _getBasemapName: function(name) {
+    _calculateColorLuminance: function (color, luminosity) {
+
+      // validate hex string
+      color = new String(color).replace(/[^0-9a-f]/gi, '');
+      if (color.length < 6) {
+        color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
+      }
+      luminosity = luminosity || 0;
+
+      // convert to decimal and change luminosity
+      var newColor = "#",
+        c, i, black = 0,
+        white = 255;
+      for (i = 0; i < 3; i++) {
+        c = parseInt(color.substr(i * 2, 2), 16);
+        c = Math.round(Math.min(Math.max(black, c + (luminosity * white)), white)).toString(16);
+        newColor += ("00" + c).substr(c.length);
+      }
+      return newColor;
+    },
+    _getBasemapName: function (name) {
       var current = null;
       switch (name) {
         case "dark-gray":
@@ -627,7 +655,7 @@ define([
       }
       return current;
     },
-    _adjustPopupSize: function() {
+    _adjustPopupSize: function () {
       if (!this.map) {
         return;
       }
@@ -637,21 +665,25 @@ define([
         height = 300,
         newWidth = Math.round(box.w * 0.50),
         newHeight = Math.round(box.h * 0.35);
+
       if (newWidth < width) {
         width = newWidth;
+        if (this._drawer && this._drawer.drawerOpen) {
+          width = 270;
+        }
       }
       if (newHeight < height) {
         height = newHeight;
       }
       this.map.infoWindow.resize(width, height);
     },
-    _displayBasemapContainer: function() {
+    _displayBasemapContainer: function () {
       var node = null,
         gallery = query(".basemap_gallery");
       if (gallery && gallery.length > 0) {
         node = gallery[0];
       } else {
-        node = dom.byId("gallery_container");
+        node = this.gallery_container;
       }
       domClass.toggle(query(".icon-basemap-container")[0], "active-toggle");
       domUtils.toggle(node);
@@ -659,7 +691,7 @@ define([
     },
 
     // create a map based on the input web map id
-    _createWebMap: function(itemInfo, params) {
+    _createWebMap: function (itemInfo, params) {
       // Optionally define additional map config here for example you can
       // turn the slider off, display info windows, disable wraparound 180,
       // slider position and more.
@@ -684,14 +716,17 @@ define([
       }
       params.mapOptions.logo = (this.config.logoimage === null) ? true : false;
 
-
+      //disable mouse zoom for mac
+      if (this.config.disable_scroll) {
+        params.mapOptions.smartNavigation = false;
+      }
       return arcgisUtils.createMap(itemInfo, "mapDiv", {
         mapOptions: params.mapOptions || {},
         usePopupManager: true,
         layerMixins: this.config.layerMixins || [],
         editable: this.config.editable,
         bingMapsKey: this.config.orgInfo.bingKey || ""
-      }).then(lang.hitch(this, function(response) {
+      }).then(lang.hitch(this, function (response) {
         this.map = response.map;
         this.config.response = response;
         this._adjustPopupSize();
@@ -703,7 +738,7 @@ define([
           this.map.disableScrollWheelZoom();
         }
         if (this.config.logoimage) {
-          query(".esriControlsBR").forEach(lang.hitch(this, function(node) {
+          query(".esriControlsBR").forEach(lang.hitch(this, function (node) {
             var link = null;
             if (this.config.logolink) {
               link = domConstruct.create("a", {
@@ -727,7 +762,7 @@ define([
         if (params.markerGraphic) {
           // Add a marker graphic with an optional info window if
           // one was specified via the marker url parameter
-          require(["esri/layers/GraphicsLayer"], lang.hitch(this, function(GraphicsLayer) {
+          require(["esri/layers/GraphicsLayer"], lang.hitch(this, function (GraphicsLayer) {
             var markerLayer = new GraphicsLayer();
 
             this.map.addLayer(markerLayer);
@@ -754,11 +789,11 @@ define([
         /* ---------------------------------------- */
         // return for promise
         return response;
-      // map has been created. You can start using it.
-      // If you need map to be loaded, listen for it's load event.
+        // map has been created. You can start using it.
+        // If you need map to be loaded, listen for it's load event.
       }), this.reportError);
     },
-    _displayPopupContent: function(feature, selectedIdx, count) {
+    _displayPopupContent: function (feature, selectedIdx, count) {
       if (feature) {
         var content = feature.getContent();
         registry.byId("info_content").set("content", content);
@@ -767,60 +802,62 @@ define([
         }
       }
     },
-    _initializeSidepanel: function() {
-      var popup = this.map.infoWindow;
-      popup.on("selection-change", lang.hitch(this, function() {
+    _initializeSidepanel: function () {
+      var popup = this.map.infoWindow,
+        prev = dom.byId("prev_nav"),
+        next = dom.byId("next_nav"),
+        popupNav = dom.byId("popupNav");
+      popup.on("selection-change", lang.hitch(this, function () {
         if (popup.count > 1) {
           this._displayPopupContent(popup.getSelectedFeature(), (popup.selectedIndex + 1), popup.count);
 
-          domAttr.set(dom.byId("prev_nav"), "disabled", false);
-          domAttr.set(dom.byId("next_nav"), "disabled", false);
+          domAttr.set(prev, "disabled", false);
+          domAttr.set(next, "disabled", false);
           if (popup.selectedIndex === 0) {
-            domAttr.set(dom.byId("prev_nav"), "disabled", true);
+            domAttr.set(prev, "disabled", true);
           } else if (popup.selectedIndex + 1 === popup.count) {
-            domAttr.set(dom.byId("next_nav"), "disabled", true);
+            domAttr.set(next, "disabled", true);
           }
         } else {
           this._displayPopupContent(popup.getSelectedFeature());
         }
 
       }));
-      popup.on("clear-features", lang.hitch(this, function() {
-        domUtils.hide(dom.byId("popupNav"));
+      popup.on("clear-features", lang.hitch(this, function () {
+        domUtils.hide(popupNav);
         registry.byId("info_content").set("content", "");
-        domAttr.set(dom.byId("prev_nav"), "disabled", false);
-        domAttr.set(dom.byId("next_nav"), "disabled", false);
+        domAttr.set(prev, "disabled", false);
+        domAttr.set(next, "disabled", false);
         dom.byId("nav_count").innerHTML = "";
 
       }));
-      popup.on("set-features", lang.hitch(this, function() {
+      popup.on("set-features", lang.hitch(this, function () {
         registry.byId("tabContainer").selectChild("popup");
         var drawer = query(".drawer-open");
         if (drawer && drawer.length === 0) {
           //drawer is not open so open it
           dom.byId("toggle_button").click();
-        //this._drawer.toggle();
         }
 
         if (popup.features && popup.features.length > 1) {
           this._displayPopupContent(popup.getSelectedFeature(), (popup.selectedIndex + 1), popup.count);
           //starting at first feature
-          domUtils.show(dom.byId("popupNav"));
-          domAttr.set(dom.byId("next_nav"), "disabled", false);
-          domAttr.set(dom.byId("prev_nav"), "disabled", true);
+          domUtils.show(popupNav);
+          domAttr.set(next, "disabled", false);
+          domAttr.set(prev, "disabled", true);
         } else {
-          domUtils.hide(dom.byId("popupNav"));
+          domUtils.hide(popupNav);
           this._displayPopupContent(popup.getSelectedFeature());
         }
       }));
-      on(dom.byId("prev_nav"), "click", function() {
+      on(prev, "click", function () {
         popup.selectPrevious();
       });
-      on(dom.byId("next_nav"), "click", function() {
+      on(next, "click", function () {
         popup.selectNext();
       });
     },
-    _getBasemapGroup: function() {
+    _getBasemapGroup: function () {
       //Get the id or owner and title for an organizations custom basemap group.
       var basemapGroup = null;
       if (this.config.basemapgroup && this.config.basemapgroup.title && this.config.basemapgroup.owner) {
@@ -835,7 +872,7 @@ define([
       }
       return basemapGroup;
     },
-    _supportsPagination: function(source) {
+    _supportsPagination: function (source) {
       // check if featurelayer supports pagination remove at 3.14
       var supported;
       if (source.locator) {

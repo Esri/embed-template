@@ -32,11 +32,10 @@ define(
   "esri/geometry/Point",
   "esri/SpatialReference",
 
-  "esri/tasks/ProjectParameters",
   "esri/tasks/GeometryService",
 
   "dojo/promise/all",
-  "dojo/Deferred",
+  "dojo/Deferred"
 
 ],
 function(
@@ -49,7 +48,6 @@ function(
   Extent, Point,
   SpatialReference,
 
-  ProjectParameters,
   GeometryService,
 
   all,

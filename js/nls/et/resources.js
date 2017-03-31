@@ -29,14 +29,14 @@ define({
       "close": "Sulge"
     },
     "legend": {
-      "title": "Legend"
+      "title": "Legendiga kaart"
     },
     "details": {
       "title": "Detailid",
       "error": "Täiendage veebikaardi kirjeldust selles jaotises kuvatavate detailidega."
     },
     "popup": {
-      "title": "Info",
+      "title": "Teave",
       "instructions": "Valige detailide kuvamiseks kaardil objekt."
     }
   },

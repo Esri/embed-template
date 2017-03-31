@@ -48,10 +48,15 @@ define({
   "customstyle": null,
   "theme": "light",
   // Or define background and text colors
-  "background": null,
+  "buttonBackground": null,
+  "buttonColor": null,
+  "headerBackground": null,
+  "headerColor": null,
+  "bodyBackground": null,
+  "bodyColor": null,
   "color": null,
   "iconcolor": null,
-  "markerSymbol": "./images/EsriBluePinCircle26.png",
+  "markerSymbol": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAdVBMVEX///8dQ3MdQ3MdQ3MdQ3MdQ3MdQ3MdQ3MdQ3MdQ3MfRnggSX0iTYImVpEsZq0tY6UtZ64taLAuabEva7QxbbMxbrczcLg1c701dcE2dsI5cLJDf8ZhjMJomNF7oMyCqtm+0ObB1ezL2evN3fDz9vrz9/v////A4KgrAAAACXRSTlMAEEBwkKDQ4PCy0djnAAAAkUlEQVQoz83Q2w6CMAyA4XFmHIoHBKeggrr3f0Q3iiGdxcQ7/9svS9sJMedHqTSlkS+cwrxqlKmp8pBKULQWALaHtggIJbVCAtjXCSFp4dx3J2Mq+6DrU+vHhaNeT3WgpEsD0o2hO9L426svs5YN5fpdDOFv/AltHIrLN+2OZUzIQ0PxBGOczMYKGi+TrYg1Ii+BgBmO06qR0gAAAABJRU5ErkJggg==",
   "markerSymbolWidth": 26,
   "markerSymbolHeight": 26,
   "level": null,
@@ -77,6 +82,7 @@ define({
     "id": null, //id of the search layer as defined in the web map
     "fields": [] //Name of the string field to search
   },
+  "customUrlLayerZoomScale": null,
   "customUrlParam": null, //Name of url param. For example parcels
   "helperServices": {
     "geometry": {

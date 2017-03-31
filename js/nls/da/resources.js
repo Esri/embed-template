@@ -32,11 +32,11 @@ define({
       "title": "Signaturforklaring"
     },
     "details": {
-      "title": "Oplysninger",
+      "title": "Detaljer",
       "error": "Opdatér webkortbeskrivelsen med de oplysninger, der skal vises i denne sektion."
     },
     "popup": {
-      "title": "Oplysninger",
+      "title": "Info",
       "instructions": "Vælg et objekt på kortet for at få vist oplysninger."
     }
   },

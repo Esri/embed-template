@@ -24,20 +24,20 @@ define({
     "extent": null,
     "home": false,
     "zoom": true,
-    "zoom_position":"top-left",
+    "zoom_position": "top-left",
     "scale": true,
     "search": false,
     "searchextent": true,
-    "logoimage":null,
-    "logolink":null,
+    "logoimage": null,
+    "logolink": null,
     "basemap_toggle": false,
     "basemap_gallery": false,
     //"streets" , "satellite" , "hybrid", "topo", "gray", "oceans", "national-geographic" "osm"
-    "alt_basemap": "satellite", 
+    "alt_basemap": "satellite",
     "legend": false,
     "popup_sidepanel": false,
-    "details":false,
-    "active_panel" : "legend", //"legend, details, popup"
+    "details": false,
+    "active_panel": "legend", //"legend, details, popup"
     "find": null,
     "feature": null,
     "show_panel": false,
@@ -48,7 +48,7 @@ define({
     "markerSymbolHeight": 26,
     "level": null,
     "center": null,
-    "disable_scroll":false,
+    "disable_scroll": false,
     //Enter the url to the proxy if needed by the application. See the 'Using the proxy page' help topic for details
     //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
     "proxyurl": "",
@@ -64,11 +64,11 @@ define({
     //has parcel data and you'd like to be able to zoom to a feature using its parcel id
     //you could add a custom url param named parcel then users could enter 
     //a value for that param in the url. index.html?parcel=3203
-    "customUrlLayer":{
-        "id": null,//id of the search layer as defined in the web map
-        "fields": []//Name of the string field to search 
+    "customUrlLayer": {
+        "id": null, //id of the search layer as defined in the web map
+        "fields": [] //Name of the string field to search 
     },
-    "customUrlParam": null,//Name of url param. For example parcels
+    "customUrlParam": null, //Name of url param. For example parcels
     "helperServices": {
         "geometry": {
             "url": null

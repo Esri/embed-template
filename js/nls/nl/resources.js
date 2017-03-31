@@ -24,7 +24,7 @@ define({
       "title": "Locatie"
     },
     "basemap": {
-      "label": "Basiskaart",
+      "label": "Basemap",
       "title": "Een basiskaart selecteren",
       "close": "Sluiten"
     },

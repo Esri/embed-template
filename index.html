@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta charset="utf-8">
@@ -12,17 +13,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <!-- End Responsive -->
-    <!-- Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol -->
-    <link rel="stylesheet" href="//js.arcgis.com/3.18/esri/themes/calcite/dijit/calcite.css">
-    <link rel="stylesheet" href="//js.arcgis.com/3.18/esri/themes/calcite/esri/esri.css">
-    <!-- Load any application specific styles -->
+    <link rel="stylesheet" href="//js.arcgis.com/3.20/esri/themes/calcite/esri/esri.css">
+    <!-- build:css -->
     <link rel="stylesheet" href="css/main.css">
+    <!-- endbuild -->
 </head>
+
 <body class="calcite app-loading">
-   <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
-       <div id="border_container" class="border-container-outer">
+    <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
+    <div id="border_container" class="border-container-outer">
         <div id="cp_center" class="content-pane-center">
-        <div id="mapDiv" dir="ltr"></div>
+            <div id="mapDiv" class="map-div" dir="ltr"></div>
         </div>
     </div>
     <script type="text/javascript">
@@ -42,37 +43,38 @@
                 location: package_path + '/..'
             }]
         };
-    // Have to handle a locale parameter before dojo is loaded
-      if (location.search.match(/locale=([\w\-]+)/)) {
-          dojoConfig.locale = RegExp.$1;
-      }
+        // Have to handle a locale parameter before dojo is loaded
+        if (location.search.match(/locale=([\w\-]+)/)) {
+            dojoConfig.locale = RegExp.$1;
+        }
     </script>
-    <script type="text/javascript" src="//js.arcgis.com/3.18/"></script>
+    <script type="text/javascript" src="//js.arcgis.com/3.20/"></script>
     <script type="text/javascript">
         require([
             "config/templateConfig",
             "application/template",
             "application/main"
-        ], function(
+        ], function (
             templateConfig,
             Template,
             Main
-        ){
+        ) {
             // create the template. This will take care of all the logic required for template applications
             var myTemplate = new Template(templateConfig);
             // create my main application. Start placing your logic in the main.js file.
             var myApp = new Main();
             // start template
-            myTemplate.startup().then(function(config) {
+            myTemplate.startup().then(function (config) {
                 // The config object contains the following properties: helper services, (optionally)
                 // i18n, appid, webmap and any custom values defined by the application.
                 // In this example we have one called theme.
                 myApp.startup(config);
-            }, function(error) {
+            }, function (error) {
                 // something went wrong. Let's report it.
                 myApp.reportError(error);
             });
         });
     </script>
 </body>
+
 </html>

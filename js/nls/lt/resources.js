@@ -26,13 +26,13 @@ define({
     "basemap": {
       "label": "Pagrindo žemėlapis",
       "title": "Pasirinkite pagrindo žemėlapį",
-      "close": "Užverti"
+      "close": "Uždaryti"
     },
     "legend": {
       "title": "Legenda"
     },
     "details": {
-      "title": "Daugiau informacijos",
+      "title": "Išsamiau",
       "error": "Atnaujinkite internetinio žemėlapio aprašą, kuris bus rodomas šioje skiltyje."
     },
     "popup": {

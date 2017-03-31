@@ -26,7 +26,7 @@ define({
     "basemap": {
       "label": "Bakgrunnskart",
       "title": "Velg et bakgrunnskart",
-      "close": "Lukk"
+      "close": "Ja"
     },
     "legend": {
       "title": "Tegnforklaring"

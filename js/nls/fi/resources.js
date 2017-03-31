@@ -26,7 +26,7 @@ define({
     "basemap": {
       "label": "Taustakartta",
       "title": "Valitse taustakartta",
-      "close": "Tallennettu"
+      "close": "Sulje"
     },
     "legend": {
       "title": "Selite"
