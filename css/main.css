@@ -7,6 +7,30 @@ body {
   font-family: "Avenir Next W01", "Avenir Next", "Avenir", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+.preview-image {
+  position: absolute;
+  z-index: 99;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.fade {
+  visibility: visible;
+  opacity: 1;
+}
+
+.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1.5s, opacity 1.5s;
+}
+
 g#mapDiv_graphics_layer path {
   fill-opacity: 0;
 }
@@ -616,6 +640,10 @@ a {
   color: #fff;
 }
 
+.searchIcon.esri-icon-close.searchClose {
+  top: 0;
+}
+
 
 /*Drawer*/
 
@@ -629,7 +657,7 @@ a {
 }
 
 .content-pane-left {
-  width: 0px;
+  width: 0;
   max-width: 280px;
   height: 100%;
   margin: 0;
@@ -667,7 +695,6 @@ a {
 }
 
 .pointer-events .drawer-open-complete .content-pane-left:before {
-  -webkit-box-shadow: inset -1px 0 6px 0 rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: inset -1px 0 6px 0 rgba(0, 0, 0, 0.5);
   box-shadow: inset -1px 0 6px 0 rgba(0, 0, 0, 0.5);
   position: fixed;
@@ -1080,7 +1107,6 @@ a {
 .calcite .dijitButtonText {
   padding: 0;
   font-size: 12px;
-  line-height: 1.66667;
   line-height: 20px;
   text-align: center;
 }

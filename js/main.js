@@ -1,4 +1,4 @@
-define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo/on", "dojo/_base/declare", "dojo/_base/lang", "dojo/_base/kernel", "dojo/query", "dojo/Deferred", "dojo/promise/all", "dojo/dom", "dojo/dom-class", "dojo/dom-construct", "dijit/registry", "esri/domUtils", "esri/lang", "esri/arcgis/utils", "esri/dijit/Popup", "esri/layers/FeatureLayer", "application/MapUrlParams", "application/sniff", "dojo/domReady!"], function (
+define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo/on", "dojo/_base/declare", "dojo/_base/lang", "dojo/_base/kernel", "dojo/query", "dojo/Deferred", "dojo/promise/all", "dojo/dom", "dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dijit/registry", "esri/domUtils", "esri/lang", "esri/arcgis/utils", "esri/dijit/Popup", "esri/layers/FeatureLayer", "application/MapUrlParams", "application/sniff", "dojo/domReady!"], function (
   ready,
   parser,
   domAttr,
@@ -12,6 +12,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
   all,
   dom,
   domClass,
+  domStyle,
   domConstruct,
   registry,
   domUtils,
@@ -162,7 +163,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         // Add the css 
         var lnk = document.createElement("link");
         lnk.type = "text/css";
-        lnk.href = "//js.arcgis.com/3.20/esri/dijit/LayerList/css/LayerList.css";
+        lnk.href = "//js.arcgis.com/3.21/esri/dijit/LayerList/css/LayerList.css";
         lnk.rel = "stylesheet";
         document.getElementsByTagName("head")[0].appendChild(lnk);
         var layerList = new LayerList({
@@ -319,6 +320,9 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         };
 
         if (this.config.searchOptions && this.config.searchOptions.sources) {
+          if (this.config.searchOptions.hasOwnProperty("enableSearchingAll")) {
+            searchOptions.enableSearchingAll = true;
+          }
           searchOptions.applicationConfiguredSources = this.config.searchOptions.sources;
           if (this.config.searchOptions.hasOwnProperty("activeSourceIndex")) {
             searchOptions.activeSourceIndex = this.config.searchOptions.activeSourceIndex;
@@ -425,7 +429,10 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           deferred.resolve();
           return;
         }
-
+        // Don't show toggle if gallery is enabled. 
+        if (this.config.basemap_gallery) {
+          return;
+        }
         var toggle_container = domConstruct.create("div", {}, "mapDiv");
 
         /* Start temporary until after JSAPI 4.0 is released */
@@ -454,26 +461,26 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           map: this.map,
           basemap: this.config.alt_basemap || "satellite"
         }, toggle_container);
-
-
         if (this.config.response && this.config.response.itemInfo && this.config.response.itemInfo.itemData && this.config.response.itemInfo.itemData.baseMap) {
           var b = this.config.response.itemInfo.itemData.baseMap;
           if (b.title === "World Dark Gray Base") {
             b.title = "Dark Gray Canvas";
           }
           if (b.title) {
+            console.log("Basemaps", basemaps);
             for (var j in basemaps) {
-              //use this to handle translated titles
+              //use this to handle translated titles		
               if (b.title === this._getBasemapName(j)) {
+
                 toggle.defaultBasemap = j;
-                //remove at 4.0
+                //remove at 4.0		
                 if (j === "dark-gray") {
                   if (this.map.layerIds && this.map.layerIds.length > 0) {
                     this.map.basemapLayerIds = this.map.layerIds.slice(0);
                     this.map._basemap = "dark-gray";
                   }
                 }
-                //end remove at 4.0
+                //end remove at 4.0		
                 this.map.setBasemap(j);
               }
             }
@@ -488,12 +495,43 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           domClass.add(toggle.domNode, "scale");
         }
 
-
         toggle.startup();
         deferred.resolve();
-
       }));
       return deferred.promise;
+    },
+    _getBasemapName: function (name) {
+      // We have to do this because of localized strings we need 
+      // a better solution 
+      var current = "Streets";
+      if (name === "dark-gray" || name === "dark-gray-vector") {
+        current = "Dark Gray Canvas";
+      } else if (name === "gray" || name === "gray-vector") {
+        current = "Light Gray Canvas";
+      } else if (name === "hybrid") {
+        current = "Imagery with Labels";
+      } else if (name === "national-geographic") {
+        current = "National Geographic";
+      } else if (name === "oceans") {
+        current = "Oceans";
+      } else if (name === "osm") {
+        current = "OpenStreetMap";
+      } else if (name === "satellite") {
+        current = "Imagery";
+      } else if (name === "streets" || name === "streets-vector") {
+        current = "Streets";
+      } else if (name === "streets-navigation-vector") {
+        current = "World Navigation Map";
+      } else if (name === "streets-night-vector") {
+        current = "World Street Map (Night)";
+      } else if (name === "streets-relief-vector") {
+        current = "World Street Map (with Relief)";
+      } else if (name === "terrain") {
+        current = "Terrain with Labels";
+      } else if (name === "topo" || name === "topo-vector") {
+        current = "Topographic";
+      }
+      return current;
     },
     loadMapWidgets: function () {
       var promises = [];
@@ -619,42 +657,6 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       }
       return newColor;
     },
-    _getBasemapName: function (name) {
-      var current = null;
-      switch (name) {
-        case "dark-gray":
-          current = "Dark Gray Canvas";
-          break;
-        case "gray":
-          current = "Light Gray Canvas";
-          break;
-        case "hybrid":
-          current = "Imagery with Labels";
-          break;
-        case "national-geographic":
-          current = "National Geographic";
-          break;
-        case "oceans":
-          current = "Oceans";
-          break;
-        case "osm":
-          current = "OpenStreetMap";
-          break;
-        case "satellite":
-          current = "Imagery";
-          break;
-        case "streets":
-          current = "Streets";
-          break;
-        case "terrain":
-          current = "Terrain with Labels";
-          break;
-        case "topo":
-          current = "Topographic";
-          break;
-      }
-      return current;
-    },
     _adjustPopupSize: function () {
       if (!this.map) {
         return;
@@ -668,7 +670,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
 
       if (newWidth < width) {
         width = newWidth;
-        if (this._drawer && this._drawer.drawerOpen) {
+        if (this._drawer) {
           width = 270;
         }
       }
@@ -727,7 +729,13 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         editable: this.config.editable,
         bingMapsKey: this.config.orgInfo.bingKey || ""
       }).then(lang.hitch(this, function (response) {
+
         this.map = response.map;
+        document.title = response.itemInfo.item.title;
+        if (this.config.previewImage) {
+          var preview = document.getElementById("previewImage");
+          domClass.add(preview, "fade-out");
+        }
         this.config.response = response;
         this._adjustPopupSize();
         if (this.config.disable_nav) {
@@ -737,6 +745,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           this.map.disableRubberBandZoom();
           this.map.disableScrollWheelZoom();
         }
+
         if (this.config.logoimage) {
           query(".esriControlsBR").forEach(lang.hitch(this, function (node) {
             var link = null;
@@ -806,11 +815,11 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       var popup = this.map.infoWindow,
         prev = dom.byId("prev_nav"),
         next = dom.byId("next_nav"),
-        popupNav = dom.byId("popupNav");
+        popupNav = dom.byId("popupNav"),
+        selectCount = dom.byId("selectCount");
       popup.on("selection-change", lang.hitch(this, function () {
         if (popup.count > 1) {
           this._displayPopupContent(popup.getSelectedFeature(), (popup.selectedIndex + 1), popup.count);
-
           domAttr.set(prev, "disabled", false);
           domAttr.set(next, "disabled", false);
           if (popup.selectedIndex === 0) {
@@ -829,7 +838,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         domAttr.set(prev, "disabled", false);
         domAttr.set(next, "disabled", false);
         dom.byId("nav_count").innerHTML = "";
-
+        domUtils.show(selectCount);
       }));
       popup.on("set-features", lang.hitch(this, function () {
         registry.byId("tabContainer").selectChild("popup");
@@ -838,7 +847,6 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           //drawer is not open so open it
           dom.byId("toggle_button").click();
         }
-
         if (popup.features && popup.features.length > 1) {
           this._displayPopupContent(popup.getSelectedFeature(), (popup.selectedIndex + 1), popup.count);
           //starting at first feature
@@ -849,6 +857,8 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           domUtils.hide(popupNav);
           this._displayPopupContent(popup.getSelectedFeature());
         }
+        domUtils.hide(selectCount);
+        this._drawer.resize();
       }));
       on(prev, "click", function () {
         popup.selectPrevious();

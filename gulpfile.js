@@ -12,6 +12,19 @@ gulp.task("copynls", function () {
         .pipe(gulp.dest("build/js/nls"));
 });
 
+/** 
+ * minify nls  
+ */
+gulp.task("compressnls", function () {
+    gulp.src("js/nls/**/*.js").pipe(jsminify({
+        ext: {
+            src: "js/nls/**/*.js",
+            min: ".js"
+        },
+        noSource: true
+    })).pipe(gulp.dest("build/js/nls/"));
+});
+
 /**
  * Optimize images 
  */
@@ -66,4 +79,4 @@ gulp.task("replace", function () {
 });
 
 //"optimize", 
-gulp.task("default", ["compress", "compressjson", "copynls", "minifycss", "replace"]);
+gulp.task("default", ["compress", "compressjson", "compressnls", "minifycss", "replace"]);

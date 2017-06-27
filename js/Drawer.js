@@ -212,7 +212,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dijit/_WidgetB
             var poupup_header = new ContentPane({
               region: "top",
               id: "info_header",
-              content: "<div class='no-select'>" + this.config.i18n.tools.popup.instructions + "</div><div id='popupNav'><div id='prev_nav' class='nav esri-icon-left'></div><div id='next_nav'class='nav esri-icon-right'></div><div id='nav_count'class='nav no-select'></div></div>"
+              content: "<div id='selectCount' class='no-select'>" + this.config.i18n.tools.popup.instructions + "</div><div id='popupNav'><div id='prev_nav' class='nav esri-icon-left'></div><div id='next_nav'class='nav esri-icon-right'></div><div id='nav_count'class='nav no-select'></div></div>"
             }, domConstruct.create("div"));
             sidepanel.addChild(poupup_header);
             tabs.addChild(sidepanel);
