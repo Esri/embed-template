@@ -124,8 +124,8 @@
             "fieldName": "basemap_gallery",
             "label": "Basemap Gallery"
         }, {
-            "type": "condition",
-            "conditional": false,
+            "type": "conditional",
+            "condition": false,
             "fieldName": "basemap_toggle",
             "label": "Basemap Toggle",
             "items": [{

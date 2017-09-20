@@ -630,13 +630,13 @@ a {
   border-top: 1px solid #ccc;
 }
 
-.calcite .dark .esriLayerList .esriContainer {
+.calcite.dark .esriLayerList .esriContainer {
   background-color: #4c4c4c;
   color: #fff;
 }
 
-.calcite .dark .esriLegendLayerLabel,
-.calcite .dark .esriLegendServiceLabel {
+.calcite.dark .esriLegendLayerLabel,
+.calcite.dark .esriLegendServiceLabel {
   color: #fff;
 }
 
