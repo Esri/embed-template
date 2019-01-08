@@ -17,11 +17,11 @@
 define({
   "tools": {
     "search": {
-      "error": "Izvietojumu nevarēja atrast",
-      "notWhatYouWanted": "Vēlējāties kaut ko citu?",
-      "selectAnother": "Izvēlieties citu izvietojumu",
-      "currentLocation": "Pašreizējais izvietojums",
-      "title": "Izvietojums"
+      "error": "Novietojumu nevarēja atrast",
+      "notWhatYouWanted": "Vai tas nav vajadzīgais?",
+      "selectAnother": "Izvēlieties citu novietojumu",
+      "currentLocation": "Pašreizējs novietojums",
+      "title": "novietojums"
     },
     "basemap": {
       "label": "Pamatkarte",
@@ -32,8 +32,8 @@ define({
       "title": "Apzīmējumi"
     },
     "details": {
-      "title": "Detalizēta informācija",
-      "error": "Atjauniniet web kartes aprakstu ar šajā sadaļā parādāmajām detaļām."
+      "title": "Informācija",
+      "error": "Atjauniniet tīmekļa kartes aprakstu ar šajā sadaļā parādāmajām detaļām."
     },
     "popup": {
       "title": "Informācija",
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Pārslēgt sānu paneli",
-    "error": "Nevar izveidot karti"
+    "error": "Nevar izveidot karti",
+    "licenseError": {
+      "message": "Jūsu kontam nav licences, lai izmantotu konfigurējamās lietotnes, kas nav publiskas. Pieprasiet savas organizācijas administratoram piešķirt jums lietotāja veidu, kurā iekļauts lietotņu komplekts Essential Apps vai papildinājumlietotņu Essential Apps licence.",
+      "title": "Nav licences"
+    }
   }
 });

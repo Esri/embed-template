@@ -18,9 +18,9 @@ define({
   "tools": {
     "search": {
       "error": "Vietos surasti nepavyko",
-      "notWhatYouWanted": "Ne tai ko norėjote?",
+      "notWhatYouWanted": "Ne tai, ko norėjote?",
       "selectAnother": "Pasirinkite kitą vietą",
-      "currentLocation": "dabartinė vieta",
+      "currentLocation": "Esama vieta",
       "title": "Vieta"
     },
     "basemap": {
@@ -32,7 +32,7 @@ define({
       "title": "Legenda"
     },
     "details": {
-      "title": "Išsamiau",
+      "title": "Išsami informacija",
       "error": "Atnaujinkite internetinio žemėlapio aprašą, kuris bus rodomas šioje skiltyje."
     },
     "popup": {
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Perjungti šoninį skydelį",
-    "error": "Žemėlapio sukurti nepavyko"
+    "error": "Žemėlapio sukurti nepavyko",
+    "licenseError": {
+      "message": "Jūsų paskyra nelicencijuota naudoti ne viešas konfigūruojamas aplikacijas. Kreipkitės į organizacijos administratorių, kad paskirtų jums vartotojo tipą, kuris turi svarbiausias aplikacijas, arba suteiktų jums papildomą svarbiausių aplikacijų licenciją.",
+      "title": "Nelicencijuota"
+    }
   }
 });

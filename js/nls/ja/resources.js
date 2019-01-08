@@ -19,12 +19,12 @@ define({
     "search": {
       "error": "場所が見つかりませんでした",
       "notWhatYouWanted": "他の住所の候補を表示しますか？",
-      "selectAnother": "別の場所を選択",
+      "selectAnother": "他の候補を選択",
       "currentLocation": "現在の位置",
       "title": "位置"
     },
     "basemap": {
-      "label": "ベースマップ",
+      "label": "背景地図",
       "title": "ベースマップの選択",
       "close": "閉じる"
     },
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "サイド パネルの切り替え",
-    "error": "マップを作成できません"
+    "error": "マップを作成できません",
+    "licenseError": {
+      "message": "パブリックでないテンプレートを使用するためのライセンスがアカウントに付与されていません。 組織の管理者に Essential Apps またはアドオン Essential Apps ライセンスを含むユーザー タイプを割り当てるよう依頼してください。",
+      "title": "ライセンスがありません。"
+    }
   }
 });

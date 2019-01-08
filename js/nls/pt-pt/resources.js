@@ -18,10 +18,10 @@ define({
   "tools": {
     "search": {
       "error": "A localização não pode ser encontrada",
-      "notWhatYouWanted": "Não é o que queria?",
-      "selectAnother": "Selecionar outra localização",
+      "notWhatYouWanted": "Não é o que pretendia?",
+      "selectAnother": "Selecionar outro local",
       "currentLocation": "Localização Atual",
-      "title": "localização"
+      "title": "Localização"
     },
     "basemap": {
       "label": "Mapa Base",
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Alternar painel lateral",
-    "error": "Não foi possível criar o mapa"
+    "error": "Não foi possível criar mapa",
+    "licenseError": {
+      "message": "A sua conta não está licenciada para usar aplicações configuráveis não públicas. Peça ao administrador da sua organização para lhe atribuir um tipo de utilizador que inclua a licença para aplicações essenciais ou aplicações essenciais complementares.",
+      "title": "Não licenciado"
+    }
   }
 });

@@ -32,7 +32,7 @@ define({
       "title": "Legenda"
     },
     "details": {
-      "title": "Details",
+      "title": "Gegevens",
       "error": "De webmap beschrijving aanpassen met de details die in deze sectie weegegeven moeten worden."
     },
     "popup": {
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Zijvenster wisselen",
-    "error": "Kan geen kaart maken"
+    "error": "Kaart kan niet gemaakt worden",
+    "licenseError": {
+      "message": "Uw account heeft geen licentie om configureerbare apps te gebruiken die niet openbaar zijn. Vraag uw organisatiebeheerder om u een gebruikerstype toe te wijzen dat Essential Apps of een add-on Essential Apps-licentie bevat.",
+      "title": "Geen licentie"
+    }
   }
 });

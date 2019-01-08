@@ -18,15 +18,15 @@ define({
   "tools": {
     "search": {
       "error": "Finner ikke lokasjonen",
-      "notWhatYouWanted": "Ikke den du ville ha?",
+      "notWhatYouWanted": "Ikke det du lette etter?",
       "selectAnother": "Velg en annen lokasjon",
-      "currentLocation": "Gjeldende lokasjon",
-      "title": "Lokasjon"
+      "currentLocation": "Gjeldende plassering",
+      "title": "Stedsangivelse"
     },
     "basemap": {
       "label": "Bakgrunnskart",
       "title": "Velg et bakgrunnskart",
-      "close": "Ja"
+      "close": "Lukk"
     },
     "legend": {
       "title": "Tegnforklaring"
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Aktiver/deaktiver sidepanel",
-    "error": "Kan ikke opprette kart"
+    "error": "Kan ikke opprette kart",
+    "licenseError": {
+      "message": "Kontoen din er ikke lisensiert til å bruke konfigurerbare apper som ikke er offentlige. Be administratoren for organisasjonen om å tilordne deg en brukertype som omfatter Essential Apps eller en tilleggslisens for Essential Apps.",
+      "title": "Ikke lisensiert"
+    }
   }
 });

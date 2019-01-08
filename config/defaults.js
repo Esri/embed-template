@@ -20,7 +20,7 @@ define({
   //default web map, default app color theme and more. These values can be overwritten by template configuration settings and url parameters.
   "appid": "",
   "webmap": "24e01ef45d40423f95300ad2abc5038a",
-  "oauthappid": null, //"AFTKRmv16wj14N3z",
+  "oauthappid": "arcgisWebApps", //"AFTKRmv16wj14N3z",
   "extent": null,
   "home": false,
   "zoom": true,

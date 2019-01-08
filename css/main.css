@@ -4,6 +4,7 @@ body {
   margin: 0;
   height: 100%;
   width: 100%;
+  line-height: initial;
   font-family: "Avenir Next W01", "Avenir Next", "Avenir", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
@@ -76,7 +77,6 @@ a {
   padding: 0 1em;
 }
 
-
 /*Navigation controls for popup when displayed in drawer*/
 
 #popupNav {
@@ -96,6 +96,7 @@ a {
 }
 
 .app-error .loading-message {
+  background-position: top center;
   padding-top: 60px;
   width: 100%;
   position: absolute;
@@ -103,6 +104,8 @@ a {
   top: 40%;
   left: 0;
   text-align: center;
+  max-width: 95%;
+  margin: 0 auto;
 }
 
 .esri-icon-right,
@@ -119,7 +122,6 @@ a {
   cursor: pointer;
   color: #595050;
 }
-
 
 /*Handle RTL of expand/contract*/
 
@@ -591,13 +593,13 @@ a {
   display: none;
 }
 
-
 /*If the screen size is max-width or smaller and the drawer is open hide the geocder.*/
 
 @media screen and (max-width: 540px) {
   .drawer-open .simpleGeocoder {
     display: none !important;
   }
+
   .esriRTL .esriSimpleSliderTL {
     top: 55px !important;
     left: 10px;
@@ -643,7 +645,6 @@ a {
 .searchIcon.esri-icon-close.searchClose {
   top: 0;
 }
-
 
 /*Drawer*/
 
@@ -745,6 +746,7 @@ a {
 .esriPopup.dark .contentPane,
 .esriPopup.dark .actionsPane {
   background-color: #4c4c4c;
+  background-color: transparent;
 }
 
 .calcite .esriPopup.light .pointer {
@@ -797,6 +799,12 @@ a {
 
 .calcite .esriPopup .actionsPane .actionList a:hover {
   color: #323232;
+}
+
+.calcite .dark.esriPopup .actionList a:hover,
+.calcite .dark.esriPopup .titleButton:hover,
+.calcite .dark.esriPopup .mediaHandle:hover {
+  color: #d1d1d1;
 }
 
 .calcite .esriPopup .titlePane {
@@ -872,7 +880,6 @@ a {
 .dijitButtonText.dijitDisplayNone {
   display: none;
 }
-
 
 /*Identity Manager*/
 
@@ -1350,4 +1357,29 @@ calcite .dijitButtonNode .dijitIcon,
 .tabStripButton-top {
   display: none;
   padding: 0;
+}
+
+/*popup tooltip workaround*/
+
+.dijitTooltip {
+  position: absolute;
+  z-index: 2000;
+  display: block;
+  left: 0;
+  top: -10000px;
+  overflow: visible;
+}
+
+.dijitTooltipContainer {
+  padding: 1px 9px;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.2), 0 5px 6px -3px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.2), 0 5px 6px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.2), 0 5px 6px -3px rgba(0, 0, 0, 0.1);
+  white-space: normal;
 }

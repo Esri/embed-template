@@ -20,7 +20,7 @@ define({
       "error": "Lokasi tidak dapat ditemukan",
       "notWhatYouWanted": "Bukan yang Anda inginkan?",
       "selectAnother": "Pilih lokasi lain",
-      "currentLocation": "Lokasi Saat ini",
+      "currentLocation": "Lokasi Saat Ini",
       "title": "Lokasi"
     },
     "basemap": {
@@ -33,15 +33,19 @@ define({
     },
     "details": {
       "title": "Detail",
-      "error": "Perbarui deskripsi peta web dengan detail untuk ditampilkan di bagian ini."
+      "error": "Perbarui deskripsi web map dengan detail untuk ditampilkan di bagian ini."
     },
     "popup": {
       "title": "Info",
-      "instructions": "Pilihkan fitur di peta untuk melihat rincian."
+      "instructions": "Pilih fitur di peta untuk melihat detailnya."
     }
   },
   "map": {
-    "toggle": "Hidupkan/matikan panel sisi",
-    "error": "Tidak dapat membuat peta"
+    "toggle": "Nyalakan/matikan panel sisi",
+    "error": "Tidak dapat membuat peta",
+    "licenseError": {
+      "message": "Akun Anda tidak dilisensikan untuk menggunakan Aplikasi yang Dapat Dikonfigurasi yang bukan bersifat publik. Harap minta administrator organisasi Anda untuk menetapkan Anda jenis pengguna yang menyertakan lisensi Essential App atau add-on Essential App.",
+      "title": "Tidak Dilisensikan"
+    }
   }
 });

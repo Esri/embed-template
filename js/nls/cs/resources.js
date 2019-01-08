@@ -19,9 +19,9 @@ define({
     "search": {
       "error": "Umístění nebylo nalezeno.",
       "notWhatYouWanted": "Nenašli jste, co jste hledali?",
-      "selectAnother": "Zvolte jiné umístění.",
+      "selectAnother": "Vybrat jiné umístění",
       "currentLocation": "Aktuální umístění",
-      "title": "Umístění"
+      "title": "Poloha"
     },
     "basemap": {
       "label": "Podkladová mapa",
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Přepnout postranní panel",
-    "error": "Nelze vytvořit mapu"
+    "error": "Nelze vytvořit mapu",
+    "licenseError": {
+      "message": "Váš účet nevlastní licenci k používání konfigurovatelných aplikací, které nejsou veřejné. Požádejte prosím správce své organizace, aby vám přidělil typ uživatele, jehož součástí jsou základní aplikace nebo doplňková licence základních aplikací.",
+      "title": "Chybí licence"
+    }
   }
 });

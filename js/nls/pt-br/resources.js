@@ -20,11 +20,11 @@ define({
       "error": "Não foi possível encontrar o local",
       "notWhatYouWanted": "Não é o que você desejava?",
       "selectAnother": "Selecionar outro local",
-      "currentLocation": "Local atual",
-      "title": "Local"
+      "currentLocation": "Localização Atual",
+      "title": "Localização"
     },
     "basemap": {
-      "label": "Mapa Base",
+      "label": "Mapas Base",
       "title": "Selecione um Mapa Base",
       "close": "Fechar"
     },
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Alternar painel lateral",
-    "error": "Não foi possível criar o mapa"
+    "error": "Não foi possível criar o mapa",
+    "licenseError": {
+      "message": "Sua conta não está licenciada para utilizar Aplicativos Configuráveis que não são públicos. Solicite ao administrador da sua organização que lhe atribua um tipo de usuário que inclua os Aplicativos Fundamentais ou uma licença complementar dos Aplicativos Fundamentais.",
+      "title": "Não Licenciado"
+    }
   }
 });

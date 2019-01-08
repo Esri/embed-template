@@ -32,7 +32,7 @@ define({
       "title": "Selite"
     },
     "details": {
-      "title": "Yksityiskohdat",
+      "title": "Tiedot",
       "error": "Päivitä Web-kartan kuvaus tässä osassa näytettävillä tiedoilla."
     },
     "popup": {
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Näytä tai piilota sivupaneeli",
-    "error": "Karttaa ei voi luoda"
+    "error": "Karttaa ei voi luoda",
+    "licenseError": {
+      "message": "Tiliäsi ei ole lisensoitu käyttämään muunneltavissa olevia sovelluksia, jotka eivät ole julkisia. Pyydä organisaatiosi pääkäyttäjää määrittämään sinulle käyttäjätyyppi, joka sisältää keskeiset sovellukset tai keskeisten sovellusten lisäosan lisenssin.",
+      "title": "Ei lisenssiä"
+    }
   }
 });

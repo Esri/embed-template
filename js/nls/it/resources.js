@@ -21,12 +21,12 @@ define({
       "notWhatYouWanted": "Non è quanto desiderato?",
       "selectAnother": "Selezionare un'altra posizione",
       "currentLocation": "Posizione corrente",
-      "title": "Posizione"
+      "title": "Localizzazione"
     },
     "basemap": {
-      "label": "Mappa precaricata",
+      "label": "Basemap",
       "title": "Seleziona una mappa di base",
-      "close": "Chiudi"
+      "close": "Chiudere"
     },
     "legend": {
       "title": "Legenda"
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Attiva/Disattiva riquadro laterale",
-    "error": "Impossibile creare la mappa"
+    "error": "Impossibile creare la mappa",
+    "licenseError": {
+      "message": "L’account non dispone della licenza per l’uso di app configurabili non pubbliche. È necessario richiedere all’amministratore dell'organizzazione l’assegnazione di un tipo di utente che includa le app essenziali o una licenza aggiuntiva per le app essenziali.",
+      "title": "Non Licenziato"
+    }
   }
 });

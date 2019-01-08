@@ -1,5 +1,4 @@
-define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo/on", "dojo/_base/declare", "dojo/_base/lang", "dojo/_base/kernel", "dojo/query", "dojo/Deferred", "dojo/promise/all", "dojo/dom", "dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dijit/registry", "esri/domUtils", "esri/lang", "esri/arcgis/utils", "esri/dijit/Popup", "esri/layers/FeatureLayer", "application/MapUrlParams", "application/sniff", "dojo/domReady!"], function (
-  ready,
+define(["dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo/on", "dojo/_base/declare", "dojo/_base/lang", "dojo/_base/kernel", "dojo/query", "dojo/Deferred", "dojo/promise/all", "dojo/dom-class", "dojo/dom-construct", "dijit/registry", "esri/domUtils", "esri/lang", "esri/arcgis/utils", "esri/dijit/Popup", "application/MapUrlParams", "application/sniff", "dojo/domReady!"], function (
   parser,
   domAttr,
   domGeometry,
@@ -10,23 +9,19 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
   query,
   Deferred,
   all,
-  dom,
   domClass,
-  domStyle,
   domConstruct,
   registry,
   domUtils,
   esriLang,
   arcgisUtils,
   Popup,
-  FeatureLayer,
   MapUrlParams,
   has) {
   return declare(null, {
     config: {},
     startup: function (config) {
       document.documentElement.lang = kernel.locale;
-      // var promise;
       parser.parse();
       // config will contain application and user defined info for the template such as i18n strings, the web map id
       // and application id
@@ -69,9 +64,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         this.reportError(error);
         var def = new Deferred();
         def.reject(error);
-        // promise = def.promise;
       }
-      //  return promise;
     },
     reportError: function (error) {
       // remove loading class from body
@@ -82,12 +75,12 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       // for localization. If you don't need to support multiple languages you can hardcode the
       // strings here and comment out the call in index.html to get the localization strings.
       // set message
-      var node = dom.byId("loading_message");
+      var node = document.getElementById("loading_message");
       if (node) {
         if (this.config && this.config.i18n) {
           node.innerHTML = this.config.i18n.map.error + ": " + error.message;
         } else {
-          node.innerHTML = "Unable to create map: " + error.message;
+          node.innerHTML = error.message;
         }
       }
     },
@@ -159,8 +152,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           deferred.resolve();
           return;
         }
-
-        // Add the css 
+        // Add the css
         var lnk = document.createElement("link");
         lnk.type = "text/css";
         lnk.href = "//js.arcgis.com/3.21/esri/dijit/LayerList/css/LayerList.css";
@@ -409,7 +401,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
 
         gallery = new BasemapGallery(galleryOptions, "full_gallery");
         gallery.startup();
-        var closemenu = dom.byId("esri-icon-close");
+        var closemenu = document.getElementById("esri-icon-close");
         if (closemenu) {
           on(closemenu, "click", lang.hitch(this, function () {
             this._displayBasemapContainer();
@@ -429,11 +421,17 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
           deferred.resolve();
           return;
         }
-        // Don't show toggle if gallery is enabled. 
+        // Don't show toggle if gallery is enabled.
         if (this.config.basemap_gallery) {
           return;
         }
+
+
         var toggle_container = domConstruct.create("div", {}, "mapDiv");
+        var toggle = new BasemapToggle({
+          map: this.map,
+          basemap: this.config.alt_basemap || "satellite"
+        }, toggle_container);
 
         /* Start temporary until after JSAPI 4.0 is released */
         var bmLayers = [],
@@ -455,37 +453,31 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
             }
           }
         })); /* END temporary until after JSAPI 4.0 is released */
-
-
-        var toggle = new BasemapToggle({
-          map: this.map,
-          basemap: this.config.alt_basemap || "satellite"
-        }, toggle_container);
+        // Get the map's basemap
         if (this.config.response && this.config.response.itemInfo && this.config.response.itemInfo.itemData && this.config.response.itemInfo.itemData.baseMap) {
           var b = this.config.response.itemInfo.itemData.baseMap;
           if (b.title === "World Dark Gray Base") {
             b.title = "Dark Gray Canvas";
           }
           if (b.title) {
-            console.log("Basemaps", basemaps);
             for (var j in basemaps) {
-              //use this to handle translated titles		
+              //use this to handle translated titles
               if (b.title === this._getBasemapName(j)) {
-
                 toggle.defaultBasemap = j;
-                //remove at 4.0		
+                //remove at 4.0
                 if (j === "dark-gray") {
                   if (this.map.layerIds && this.map.layerIds.length > 0) {
                     this.map.basemapLayerIds = this.map.layerIds.slice(0);
                     this.map._basemap = "dark-gray";
                   }
                 }
-                //end remove at 4.0		
-                this.map.setBasemap(j);
+                //end remove at 4.0
               }
             }
           }
         }
+
+
         //add a class so we can move the basemap if the zoom position moved.
         if (this.config.zoom && this.config.zoom_position) {
           domClass.add(toggle.domNode, "embed-" + this.config.zoom_position);
@@ -500,39 +492,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       }));
       return deferred.promise;
     },
-    _getBasemapName: function (name) {
-      // We have to do this because of localized strings we need 
-      // a better solution 
-      var current = "Streets";
-      if (name === "dark-gray" || name === "dark-gray-vector") {
-        current = "Dark Gray Canvas";
-      } else if (name === "gray" || name === "gray-vector") {
-        current = "Light Gray Canvas";
-      } else if (name === "hybrid") {
-        current = "Imagery with Labels";
-      } else if (name === "national-geographic") {
-        current = "National Geographic";
-      } else if (name === "oceans") {
-        current = "Oceans";
-      } else if (name === "osm") {
-        current = "OpenStreetMap";
-      } else if (name === "satellite") {
-        current = "Imagery";
-      } else if (name === "streets" || name === "streets-vector") {
-        current = "Streets";
-      } else if (name === "streets-navigation-vector") {
-        current = "World Navigation Map";
-      } else if (name === "streets-night-vector") {
-        current = "World Street Map (Night)";
-      } else if (name === "streets-relief-vector") {
-        current = "World Street Map (with Relief)";
-      } else if (name === "terrain") {
-        current = "Terrain with Labels";
-      } else if (name === "topo" || name === "topo-vector") {
-        current = "Topographic";
-      }
-      return current;
-    },
+
     loadMapWidgets: function () {
       var promises = [];
       promises.push(lang.hitch(this, this._addScalebar()));
@@ -691,7 +651,39 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       domUtils.toggle(node);
 
     },
-
+    _getBasemapName: function (name) {
+      // We have to do this because of localized strings we need
+      // a better solution
+      var current = "Streets";
+      if (name === "dark-gray" || name === "dark-gray-vector") {
+        current = "Dark Gray Canvas";
+      } else if (name === "gray" || name === "gray-vector") {
+        current = "Light Gray Canvas";
+      } else if (name === "hybrid") {
+        current = "Imagery with Labels";
+      } else if (name === "national-geographic") {
+        current = "National Geographic";
+      } else if (name === "oceans") {
+        current = "Oceans";
+      } else if (name === "osm") {
+        current = "OpenStreetMap";
+      } else if (name === "satellite") {
+        current = "Imagery";
+      } else if (name === "streets" || name === "streets-vector") {
+        current = "Streets";
+      } else if (name === "streets-navigation-vector") {
+        current = "World Navigation Map";
+      } else if (name === "streets-night-vector") {
+        current = "World Street Map (Night)";
+      } else if (name === "streets-relief-vector") {
+        current = "World Street Map (with Relief)";
+      } else if (name === "terrain") {
+        current = "Terrain with Labels";
+      } else if (name === "topo" || name === "topo-vector") {
+        current = "Topographic";
+      }
+      return current;
+    },
     // create a map based on the input web map id
     _createWebMap: function (itemInfo, params) {
       // Optionally define additional map config here for example you can
@@ -722,6 +714,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       if (this.config.disable_scroll) {
         params.mapOptions.smartNavigation = false;
       }
+
       return arcgisUtils.createMap(itemInfo, "mapDiv", {
         mapOptions: params.mapOptions || {},
         usePopupManager: true,
@@ -731,6 +724,9 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
       }).then(lang.hitch(this, function (response) {
 
         this.map = response.map;
+        if (params.mapOptions.center && params.mapOptions.extent) {
+          this.map.centerAt(params.mapOptions.center);
+        }
         document.title = response.itemInfo.item.title;
         if (this.config.previewImage) {
           var preview = document.getElementById("previewImage");
@@ -749,13 +745,13 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         if (this.config.logoimage) {
           query(".esriControlsBR").forEach(lang.hitch(this, function (node) {
             var link = null;
-            if (this.config.logolink) {
+            // Ensure we have a valid url before using
+            if (this.config.logolink && this._validateUrl(this.config.logolink)) {
               link = domConstruct.create("a", {
                 href: this.config.logolink,
                 target: "_blank"
               }, node);
             }
-
             //create a logo image
             domConstruct.create("img", {
               src: this.config.logoimage,
@@ -807,16 +803,16 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         var content = feature.getContent();
         registry.byId("info_content").set("content", content);
         if (selectedIdx && count) {
-          domAttr.set(dom.byId("nav_count"), "innerHTML", "" + selectedIdx + "/" + count);
+          domAttr.set(document.getElementById("nav_count"), "innerHTML", "" + selectedIdx + "/" + count);
         }
       }
     },
     _initializeSidepanel: function () {
       var popup = this.map.infoWindow,
-        prev = dom.byId("prev_nav"),
-        next = dom.byId("next_nav"),
-        popupNav = dom.byId("popupNav"),
-        selectCount = dom.byId("selectCount");
+        prev = document.getElementById("prev_nav"),
+        next = document.getElementById("next_nav"),
+        popupNav = document.getElementById("popupNav"),
+        selectCount = document.getElementById("selectCount");
       popup.on("selection-change", lang.hitch(this, function () {
         if (popup.count > 1) {
           this._displayPopupContent(popup.getSelectedFeature(), (popup.selectedIndex + 1), popup.count);
@@ -837,7 +833,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         registry.byId("info_content").set("content", "");
         domAttr.set(prev, "disabled", false);
         domAttr.set(next, "disabled", false);
-        dom.byId("nav_count").innerHTML = "";
+        document.getElementById("nav_count").innerHTML = "";
         domUtils.show(selectCount);
       }));
       popup.on("set-features", lang.hitch(this, function () {
@@ -845,7 +841,7 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         var drawer = query(".drawer-open");
         if (drawer && drawer.length === 0) {
           //drawer is not open so open it
-          dom.byId("toggle_button").click();
+          document.getElementById("toggle_button").click();
         }
         if (popup.features && popup.features.length > 1) {
           this._displayPopupContent(popup.getSelectedFeature(), (popup.selectedIndex + 1), popup.count);
@@ -894,6 +890,15 @@ define(["dojo/ready", "dojo/parser", "dojo/dom-attr", "dojo/dom-geometry", "dojo
         }
       }
       return supported;
+    },
+    _validateUrl: function (url) {
+      var pattern = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+      if (!pattern.test(url)) {
+        return false;
+      } else {
+        return true;
+      }
+
     }
   });
 });

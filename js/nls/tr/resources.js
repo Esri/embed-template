@@ -29,7 +29,7 @@ define({
       "close": "Kapat"
     },
     "legend": {
-      "title": "Gösterim"
+      "title": "Gösterge"
     },
     "details": {
       "title": "Detaylar",
@@ -37,11 +37,15 @@ define({
     },
     "popup": {
       "title": "Bilgi",
-      "instructions": "Ayrıntıları görüntülemek için haritada bir özellik seçin."
+      "instructions": "Ayrıntıları görüntülemek için haritada bir detay seçin."
     }
   },
   "map": {
     "toggle": "Yan paneli aç/kapat",
-    "error": "Harita oluşturulamıyor"
+    "error": "Harita oluşturulamıyor",
+    "licenseError": {
+      "message": "Hesabınız herkese açık olmayan Yapılandırılabilir Uygulamaları kullanmak için lisanslandırılmamış. Lütfen kuruluş yöneticinizden Temel Uygulamalar veya eklenti Temel Uygulamalar lisansı içeren bir kullanıcı türü atamasını isteyin.",
+      "title": "Lisanslı Değil"
+    }
   }
 });

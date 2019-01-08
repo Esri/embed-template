@@ -18,8 +18,8 @@ define({
   "tools": {
     "search": {
       "error": "Emplacement introuvable",
-      "notWhatYouWanted": "Ce n'est pas ce que vous vouliez ?",
-      "selectAnother": "Sélectionnez un autre emplacement",
+      "notWhatYouWanted": "Ce n'est pas ce que vous vouliez ?",
+      "selectAnother": "Sélectionner un autre emplacement",
       "currentLocation": "Emplacement actuel",
       "title": "Emplacement"
     },
@@ -33,7 +33,7 @@ define({
     },
     "details": {
       "title": "Détails",
-      "error": "Mettez à jour la description de la carte Web avec les détails à afficher dans cette section."
+      "error": "Mettez à jour la description de la carte web avec les détails à afficher dans cette section."
     },
     "popup": {
       "title": "Infos",
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Activer/Désactiver le volet latéral",
-    "error": "Impossible de créer la carte"
+    "error": "Impossible de créer la carte",
+    "licenseError": {
+      "message": "La licence de votre compte ne permet pas d’utiliser des applications configurables non publiques. Demandez à l’administrateur de votre organisation de vous attribuer un type d’utilisateur qui inclut une licence Essential Apps ou une licence Essential Apps additionnelle.",
+      "title": "Pas de licence"
+    }
   }
 });

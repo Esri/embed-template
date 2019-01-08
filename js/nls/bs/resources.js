@@ -29,7 +29,7 @@ define({
       "close": "Zatvori"
     },
     "legend": {
-      "title": "Legenda"
+      "title": "Način automatske reprodukcije napredovat će kroz vašu priču u redovitim intervalima. To je idealno za kiosk ili javno prikazani zaslon, no budite svjesni da će se u drugim situacijama priča možda teže čitati. Ova značajka nije podržana na malim zaslonima."
     },
     "details": {
       "title": "Pojedinosti",
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Preklopi bočnu ploču",
-    "error": "Nije moguće stvoriti kartu"
+    "error": "Nije moguće stvoriti kartu",
+    "licenseError": {
+      "message": "Vaš račun nije licenciran za upotrebu konfigurabilnih appova koji nisu javni. Obratite se administratoru svoje organizacije da vam dodijeli vrstu korisnika koja sadrži licencu za osnovne appove ili za dodatke za osnovne appove.",
+      "title": "Nema licence"
+    }
   }
 });

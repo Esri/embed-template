@@ -18,7 +18,7 @@ define({
   "tools": {
     "search": {
       "error": "Asukohta ei leitud",
-      "notWhatYouWanted": "Ei ole see, mida soovisid?",
+      "notWhatYouWanted": "Ei ole see, mida soovisite?",
       "selectAnother": "Vali muu asukoht",
       "currentLocation": "Praegune asukoht",
       "title": "Asukoht"
@@ -26,7 +26,7 @@ define({
     "basemap": {
       "label": "Aluskaart",
       "title": "Vali aluskaart",
-      "close": "Sulge"
+      "close": "Sule"
     },
     "legend": {
       "title": "Legendiga kaart"
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Lülita külgpaneel sisse/välja",
-    "error": "Kaarti ei saa luua"
+    "error": "Kaarti ei saa luua",
+    "licenseError": {
+      "message": "Teie kontol puudub litsents konfigureeritavate rakenduste kasutamiseks, mis ei ole avalikud. Paluge oma organisatsiooni administraatoril määrata teile kasutajatüüp, mis sisaldab olulisi rakendusi või oluliste rakenduse lisalitsentsi.",
+      "title": "Litsents puudub"
+    }
   }
 });

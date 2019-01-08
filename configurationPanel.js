@@ -220,7 +220,7 @@
             "label": "Custom Url Parameters"
         }, {
             "type": "paragraph",
-            "value": "Setup the app to support a custom url parameter. For example if your map contains a feature layer with parcel information and you'd like to be able to find parcels using a url parameter you can use this section to do so. Select a layer and search field then define the name of a custom param. Once you've defined these values you can append the custom search to your application url using the custom parameter name you define. For example, if I set the custom param value to parcels a custom url would look like this index.html?parcel=3045"
+            "value": "Setup the app to support a custom url parameter. For example if your map contains a feature layer with parcel information and you'd like to be able to find parcels using a url parameter you can use this section to do so. Select a layer and search field then define the name of a custom param. Once you've defined these values you can append the custom search to your application url using the custom parameter name you define. For example, if I set the custom param value to parcels a custom url would look like this https://www.arcgis.com/apps/View/index.html?appid=2559278646164b568caebf6f4cbf35b3&parcel=24033"
         }, {
             "placeHolder": "i.e. parcels",
             "label": "URL param name:",

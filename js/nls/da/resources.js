@@ -20,8 +20,8 @@ define({
       "error": "Placeringen blev ikke fundet",
       "notWhatYouWanted": "Var det ikke det, du ville?",
       "selectAnother": "Vælg et andet sted",
-      "currentLocation": "Nuværende placering",
-      "title": "Placering"
+      "currentLocation": "Aktuel position",
+      "title": "Position"
     },
     "basemap": {
       "label": "Baggrundskort",
@@ -42,6 +42,10 @@ define({
   },
   "map": {
     "toggle": "Skift sidepanel",
-    "error": "Kan ikke oprette kort"
+    "error": "Kan ikke oprette kort",
+    "licenseError": {
+      "message": "Din konto har ikke licens til at bruge Konfigurérbare apps, der ikke er offentlige. Bed din organisationsadministrator om at knytte dig til en brugertype, der omfatter Essential Apps eller en add-on Essential Apps-licens.",
+      "title": "Ikke licenseret"
+    }
   }
 });
