@@ -19,6 +19,7 @@
     "gulp-more-css": "^1.0.0"
   },
   "dependencies": {
+    "gulp-install": "^1.1.0",
     "gulp-shorthand": "^1.1.0"
   }
 }

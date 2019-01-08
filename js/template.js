@@ -67,7 +67,6 @@ define([
     groupInfoConfig: {},
     itemConfig: {},
     customUrlConfig: {},
-    sharedThemeConfig: {},
     commonUrlItems: ["webmap", "appid", "group", "oauthappid"],
     constructor: function (templateConfig) {
       // template settings
@@ -79,7 +78,6 @@ define([
       this.config = defaults;
       // Gets parameters from the URL, convert them to an object and remove HTML tags.
       this.urlObject = this._createUrlParamsObject();
-
     },
     startup: function () {
       var promise = this._init();
@@ -121,7 +119,7 @@ define([
       // default value is arcgis.com.
       this._initializeApplication();
       if (this.urlObject && this.urlObject.query && this.urlObject.query.previewImage && this.urlObject.query.previewImage === "true" && this.urlObject.query.webmap) {
-        // Get preview image and show until map is loaded then hide 
+        // Get preview image and show until map is loaded then hide
         var preview = document.getElementById("previewImage");
         domClass.remove(preview, "hidden");
         domClass.add(preview, "fade");
@@ -134,7 +132,7 @@ define([
       }
 
       // check if signed in. Once we know if we're signed in, we can get appConfig, orgConfig and create a portal if needed.
-      this._checkSignIn().always(lang.hitch(this, function () {
+      this._checkSignIn().always(lang.hitch(this, function (response) {
         // execute these tasks async
         all({
           // get localization
@@ -161,6 +159,13 @@ define([
           }).then(lang.hitch(this, function () {
             // mixin all new settings from item, group info and group items.
             this._mixinAll();
+
+            if ((this.config.appResponse && this.config.appResponse.item.access !== "public")) { // check app access
+              if (response && response.code && response.code === "IdentityManagerBase.1") {
+                var licenseMessage = "<h1>" + this.i18nConfig.i18n.map.licenseError.title + "</h1><p>" + this.i18nConfig.i18n.map.licenseError.message + "</p>";
+                deferred.reject(new Error(licenseMessage));
+              }
+            }
             // We have all we need, let's set up a few things
             this._completeApplication();
             deferred.resolve(this.config);
@@ -190,9 +195,9 @@ define([
     },
     _mixinAll: function () {
       /*
-        mix in all the settings we got!
-        {} <- i18n <- organization <- application <- group info <- group items <- webmap <- custom url params <- standard url params.
-        */
+      mix in all the settings we got!
+      {} <- i18n <- organization <- application <- group info <- group items <- webmap <- custom url params <- standard url params.
+      */
       lang.mixin(this.config, this.i18nConfig, this.orgConfig, this.appConfig, this.groupInfoConfig, this.groupItemConfig, this.itemConfig, this.customUrlConfig, this.urlConfig);
     },
     _createPortal: function () {
@@ -255,8 +260,7 @@ define([
     _initializeApplication: function () {
       // If this app is hosted on an Esri environment.
       if (this.templateConfig.esriEnvironment) {
-        var appLocation,
-          instance;
+        var appLocation, instance;
         // Check to see if the app is hosted or a portal. If the app is hosted or a portal set the
         // sharing url and the proxy. Otherwise use the sharing url set it to arcgis.com.
         // We know app is hosted (or portal) if it has /apps/ or /home/ in the url.
@@ -268,8 +272,8 @@ define([
         if (appLocation !== -1) {
           // hosted or portal
           instance = location.pathname.substr(0, appLocation); //get the portal instance name
-          this.config.sharinghost = location.protocol + "//" + location.host + instance;
-          this.config.proxyurl = location.protocol + "//" + location.host + instance + "/sharing/proxy";
+          this.config.sharinghost = "https://" + location.host + instance;
+          this.config.proxyurl = "https://" + location.host + instance + "/sharing/proxy";
         }
       }
       arcgisUtils.arcgisUrl = this.config.sharinghost + "/sharing/rest/content/items";
@@ -280,9 +284,7 @@ define([
       }
     },
     _checkSignIn: function () {
-      var deferred,
-        signedIn,
-        oAuthInfo;
+      var deferred, signedIn, oAuthInfo;
       deferred = new Deferred();
       //If there's an oauth appid specified register it
       if (this.config.oauthappid) {
@@ -293,19 +295,24 @@ define([
         });
         IdentityManager.registerOAuthInfos([oAuthInfo]);
       }
-      // check sign-in status
-      signedIn = IdentityManager.checkSignInStatus(this.config.sharinghost + "/sharing");
-      // resolve regardless of signed in or not.
-      signedIn.promise.always(function () {
-        deferred.resolve();
-      });
+      // check app access or signed-in status
+      if (this.config.oauthappid && this.templateConfig.esriEnvironment) {
+        signedIn = IdentityManager.checkAppAccess(this.config.sharinghost + "/sharing", this.config.oauthappid);
+        signedIn.always(function (response) {
+          deferred.resolve(response);
+        });
+      } else {
+        signedIn = IdentityManager.checkSignInStatus(this.config.sharinghost + "/sharing");
+        // resolve regardless of signed in or not.
+        signedIn.promise.always(function (response) {
+          deferred.resolve(response);
+        });
+      }
+
       return deferred.promise;
     },
     _queryLocalization: function () {
-      var deferred,
-        dirNode,
-        classes,
-        rtlClasses;
+      var deferred, dirNode, classes, rtlClasses;
       deferred = new Deferred();
       if (this.templateConfig.queryForLocale) {
         require(["dojo/i18n!application/nls/resources"], lang.hitch(this, function (appBundle) {
@@ -346,9 +353,7 @@ define([
     },
     queryGroupItems: function (options) {
       var deferred = new Deferred(),
-        error,
-        defaultParams,
-        params;
+        error, defaultParams, params;
       // If we want to get the group info
       if (this.templateConfig.queryForGroupItems) {
         if (this.config.group) {
@@ -390,8 +395,7 @@ define([
     },
     queryGroupInfo: function () {
       var deferred = new Deferred(),
-        error,
-        params;
+        error, params;
       // If we want to get the group info
       if (this.templateConfig.queryForGroupInfo) {
         if (this.config.group) {
@@ -419,8 +423,7 @@ define([
       return deferred.promise;
     },
     queryItem: function () {
-      var deferred,
-        cfg = {};
+      var deferred, cfg = {};
       // Get details about the specified web map. If the web map is not shared publicly users will
       // be prompted to log-in by the Identity Manager.
       deferred = new Deferred();
@@ -533,17 +536,18 @@ define([
           },
           callbackParamName: "callback"
         }).then(lang.hitch(this, function (response) {
-          // Iterate over the list of authorizedCrossOriginDomains
-          // and add each as a javascript obj to the corsEnabledServers
-          var trustedHost;
-          if (response.authorizedCrossOriginDomains && response.authorizedCrossOriginDomains.length) {
-            for (var i = 0; i < response.authorizedCrossOriginDomains.length; i++) {
-              trustedHost = response.authorizedCrossOriginDomains[i];
-              if (esriLang.isDefined(trustedHost) && trustedHost.length > 0) {
-                esriConfig.defaults.io.corsEnabledServers.push({
-                  host: response.authorizedCrossOriginDomains[i],
-                  withCredentials: true
-                });
+          if (this.templateConfig.webTierSecurity) {
+            var trustedHost;
+            if (response.authorizedCrossOriginDomains && response.authorizedCrossOriginDomains.length > 0) {
+              for (var i = 0; i < response.authorizedCrossOriginDomains.length; i++) {
+                trustedHost = response.authorizedCrossOriginDomains[i];
+                // add if trusted host is not null, undefined, or empty string
+                if (esriLang.isDefined(trustedHost) && trustedHost.length > 0) {
+                  esriConfig.defaults.io.corsEnabledServers.push({
+                    host: trustedHost,
+                    withCredentials: true
+                  });
+                }
               }
             }
           }
@@ -560,8 +564,8 @@ define([
             // use feet/miles only for the US and if nothing is set for a user
             cfg.units = "english";
           }
-          // If it has the useVectorBasemaps property and its true then use the 
-          // vectorBasemapGalleryGroupQuery otherwise use the default 
+          // If it has the useVectorBasemaps property and its true then use the
+          // vectorBasemapGalleryGroupQuery otherwise use the default
           var basemapGalleryGroupQuery = response.basemapGalleryGroupQuery;
           if (response.hasOwnProperty("useVectorBasemaps") && response.useVectorBasemaps === true && response.vectorBasemapGalleryGroupQuery) {
             basemapGalleryGroupQuery = response.vectorBasemapGalleryGroupQuery;
